@@ -1,0 +1,2 @@
+- [Openindustry.it](https://openindustry.it)
+  - Andrea Mario Piovesana \<<andrea.m.piovesana@openindustry.it>\>

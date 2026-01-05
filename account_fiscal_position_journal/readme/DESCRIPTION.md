@@ -1,0 +1,1 @@
+This module add default journal for Account Position.
