@@ -1,6 +1,6 @@
 {
     "name": "DUB 3-Way Match for SDI Bills",
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.1.0",
     "category": "Accounting/Accounting",
     "summary": "Auto-link Italian SDI vendor bills to purchase orders for 3-way matching",
     "description": """
@@ -34,7 +34,9 @@ Depends on the Enterprise module ``account_3way_match`` to expose the
         "purchase_stock",
         "account_3way_match",
     ],
-    "data": [],
+    "data": [
+        "views/account_move_views.xml",
+    ],
     "installable": True,
     "auto_install": False,
 }
