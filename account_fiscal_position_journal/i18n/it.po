@@ -1,0 +1,64 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_fiscal_position_journal
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0+e-20260409\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-14 03:31+0000\n"
+"PO-Revision-Date: 2026-05-14 03:31+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_fiscal_position_journal
+#: model:ir.model.fields,field_description:account_fiscal_position_journal.field_account_fiscal_position__purchase_journal_id
+msgid "Default Purchase Journal"
+msgstr "Sezionale acquisti predefinito"
+
+#. module: account_fiscal_position_journal
+#: model:ir.model.fields,field_description:account_fiscal_position_journal.field_account_fiscal_position__sale_journal_id
+msgid "Default Sale Journal"
+msgstr "Sezionale vendite predefinito"
+
+#. module: account_fiscal_position_journal
+#: model:ir.model,name:account_fiscal_position_journal.model_account_fiscal_position
+msgid "Fiscal Position"
+msgstr "Posizione fiscale"
+
+#. module: account_fiscal_position_journal
+#: model:ir.model,name:account_fiscal_position_journal.model_account_move
+msgid "Journal Entry"
+msgstr "Registrazione contabile"
+
+#. module: account_fiscal_position_journal
+#: model:ir.model,name:account_fiscal_position_journal.model_purchase_order
+msgid "Purchase Order"
+msgstr "Ordine di acquisto"
+
+#. module: account_fiscal_position_journal
+#: model:ir.model.fields,help:account_fiscal_position_journal.field_account_fiscal_position__purchase_journal_id
+msgid ""
+"Purchase journal used by default on vendor bills and refunds when this "
+"fiscal position applies."
+msgstr ""
+"Sezionale acquisti utilizzato come predefinito sulle fatture fornitore e "
+"note di credito quando viene applicata questa posizione fiscale."
+
+#. module: account_fiscal_position_journal
+#: model:ir.model,name:account_fiscal_position_journal.model_sale_order
+msgid "Sales Order"
+msgstr "Ordine di vendita"
+
+#. module: account_fiscal_position_journal
+#: model:ir.model.fields,help:account_fiscal_position_journal.field_account_fiscal_position__sale_journal_id
+msgid ""
+"Sales journal used by default on customer invoices and refunds when this "
+"fiscal position applies."
+msgstr ""
+"Sezionale vendite utilizzato come predefinito sulle fatture cliente e note "
+"di credito quando viene applicata questa posizione fiscale."
