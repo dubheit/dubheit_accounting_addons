@@ -1,0 +1,454 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_it_withholding_tax
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0+e-20251008\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-15 09:36+0000\n"
+"PO-Revision-Date: 2026-07-15 09:36+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: it_IT\n"
+"Plural-Forms: \n"
+
+#. module: l10n_it_withholding_tax
+#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_payment_form
+msgid "<span>Journal Entry</span>"
+msgstr "<span>Registrazione contabile</span>"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model,name:l10n_it_withholding_tax.model_account_account
+msgid "Account"
+msgstr "Conto"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,help:l10n_it_withholding_tax.field_withholding_payment_type__counterpart_account_id
+msgid ""
+"Account credited when the withholding taxes are paid (e.g. Erario "
+"c/versamenti or the bank account)."
+msgstr "Conto accreditato quando le ritenute vengono versate (es. Erario c/versamenti o il conto bancario)."
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__date
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__date
+msgid "Accounting Date"
+msgstr "Data registrazione"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,help:l10n_it_withholding_tax.field_withholding_payment_type__account_ids
+msgid ""
+"Accounts that accumulate the amounts to be paid, derived from the selected "
+"taxes. Their unreconciled lines are the amounts due. You may override them "
+"if needed."
+msgstr "Conti che accumulano gli importi da versare, derivati dalle imposte selezionate. Le loro righe non riconciliate sono gli importi dovuti. Puoi modificarli se necessario."
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_type__active
+msgid "Active"
+msgstr "Attivo"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__amount
+msgid "Amount"
+msgstr "Importo"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__amount_due
+msgid "Amount to Pay"
+msgstr "Importo da versare"
+
+#. module: l10n_it_withholding_tax
+#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_payment_create_form
+msgid "Cancel"
+msgstr "Annulla"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields.selection,name:l10n_it_withholding_tax.selection__l10n_it_withholding_tax_report__parent_state__cancel
+msgid "Cancelled"
+msgstr "Annullato"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__company_id
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__company_id
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_type__company_id
+msgid "Company"
+msgstr "Azienda"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_account_tax__l10n_it_wt_company_tax_id
+msgid "Company-charge Tax"
+msgstr "Imposta a carico ditta"
+
+#. module: l10n_it_withholding_tax
+#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_payment_form
+msgid "Confirm"
+msgstr "Conferma"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields.selection,name:l10n_it_withholding_tax.selection__withholding_payment__state__confirmed
+msgid "Confirmed"
+msgstr "Confermato"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_type__counterpart_account_id
+msgid "Counterpart Account"
+msgstr "Conto contropartita"
+
+#. module: l10n_it_withholding_tax
+#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_payment_create_form
+msgid "Create"
+msgstr "Crea"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.actions.act_window,name:l10n_it_withholding_tax.action_withholding_payment_create
+#: model:ir.actions.act_window,name:l10n_it_withholding_tax.action_withholding_payment_create_report
+#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_payment_create_form
+msgid "Create Withholding Payment"
+msgstr "Crea versamento ritenute"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model,name:l10n_it_withholding_tax.model_withholding_payment_create
+msgid "Create Withholding Payment from Lines"
+msgstr "Crea versamento ritenute da righe"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__create_uid
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_create__create_uid
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_type__create_uid
+msgid "Created by"
+msgstr "Creato da"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__create_date
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_create__create_date
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_type__create_date
+msgid "Created on"
+msgstr "Creato il"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__currency_id
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__currency_id
+msgid "Currency"
+msgstr "Valuta"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_create__date
+msgid "Date"
+msgstr "Data"
+
+#. module: l10n_it_withholding_tax
+#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_payment_type_form
+msgid "Derived Payable Accounts"
+msgstr "Conti da versare derivati"
+
+#. module: l10n_it_withholding_tax
+#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_payment_type_form
+msgid "Derived from the taxes; editable if needed."
+msgstr "Derivati dalle imposte; modificabili se necessario."
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__display_name
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__display_name
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_create__display_name
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_type__display_name
+msgid "Display Name"
+msgstr "Nome visualizzato"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__move_id
+#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_due_line_list
+#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_due_line_search
+msgid "Document"
+msgstr "Documento"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__invoice_date
+msgid "Document Date"
+msgstr "Data documento"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__move_name
+msgid "Document Number"
+msgstr "Numero documento"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields.selection,name:l10n_it_withholding_tax.selection__l10n_it_withholding_tax_report__parent_state__draft
+#: model:ir.model.fields.selection,name:l10n_it_withholding_tax.selection__withholding_payment__state__draft
+msgid "Draft"
+msgstr "Bozza"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_type__codice_tributo
+msgid "F24 Tax Code"
+msgstr "Codice tributo F24"
+
+#. module: l10n_it_withholding_tax
+#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_due_line_search
+msgid "Group By"
+msgstr "Raggruppa per"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__id
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__id
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_create__id
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_type__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model,name:l10n_it_withholding_tax.model_account_move_line
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__move_line_id
+msgid "Journal Item"
+msgstr "Movimento contabile"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,help:l10n_it_withholding_tax.field_withholding_payment_type__journal_id
+msgid "Journal used to book the payment (F24) entry."
+msgstr "Registro usato per contabilizzare il versamento (F24)."
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__write_uid
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_create__write_uid
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_type__write_uid
+msgid "Last Updated by"
+msgstr "Ultimo aggiornamento di"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__write_date
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_create__write_date
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_type__write_date
+msgid "Last Updated on"
+msgstr "Ultimo aggiornamento il"
+
+#. module: l10n_it_withholding_tax
+#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_payment_form
+msgid "Load Due Lines"
+msgstr "Carica righe da versare"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__name
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_type__name
+msgid "Name"
+msgstr "Nome"
+
+#. module: l10n_it_withholding_tax
+#: model_terms:ir.actions.act_window,help:l10n_it_withholding_tax.action_withholding_due_lines
+msgid "No withholding taxes to pay."
+msgstr "Nessuna ritenuta da versare."
+
+#. module: l10n_it_withholding_tax
+#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_due_line_search
+msgid "Not Yet Paid (F24)"
+msgstr "Non ancora versato (F24)"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__reconciled
+msgid "Paid (F24)"
+msgstr "Versato (F24)"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__account_id
+#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_due_line_search
+msgid "Payable Account"
+msgstr "Conto da versare"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_type__account_ids
+msgid "Payable Accounts"
+msgstr "Conti da versare"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__date_payment
+msgid "Payment Date"
+msgstr "Data pagamento"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__move_id
+msgid "Payment Entry"
+msgstr "Registrazione versamento"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_type__journal_id
+msgid "Payment Journal"
+msgstr "Registro versamento"
+
+#. module: l10n_it_withholding_tax
+#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_due_line_search
+msgid "Payment Month"
+msgstr "Mese di pagamento"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__type_id
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_create__type_id
+msgid "Payment Type"
+msgstr "Tipo versamento"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.ui.menu,name:l10n_it_withholding_tax.menu_withholding_payment
+msgid "Payments"
+msgstr "Versamenti"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__date_stop
+msgid "Period End"
+msgstr "Fine periodo"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__date_start
+msgid "Period Start"
+msgstr "Inizio periodo"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields.selection,name:l10n_it_withholding_tax.selection__l10n_it_withholding_tax_report__parent_state__posted
+msgid "Posted"
+msgstr "Registrato"
+
+#. module: l10n_it_withholding_tax
+#: model_terms:ir.actions.act_window,help:l10n_it_withholding_tax.action_withholding_due_lines
+msgid ""
+"Posted, still-unpaid lines on the withholding payable accounts\n"
+"               appear here, grouped by withholding type. Select them and use\n"
+"               <b>Actions &gt; Create Withholding Payment</b> to generate the\n"
+"               F24 entry and reconcile them."
+msgstr "Le righe registrate e non ancora versate sui conti delle ritenute da versare compaiono qui, raggruppate per tipo di ritenuta. Selezionale e usa <b>Azioni &gt; Crea pagamento ritenute</b> per generare la registrazione F24 e riconciliarle."
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,help:l10n_it_withholding_tax.field_account_account__l10n_it_wt_payable
+msgid ""
+"Set automatically when the account is used by a withholding payment type. "
+"Its unreconciled lines are amounts to be paid."
+msgstr "Impostato automaticamente quando il conto è usato da un tipo di pagamento ritenute. Le sue righe non riconciliate sono importi da versare."
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__state
+msgid "State"
+msgstr "Stato"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__parent_state
+msgid "Status"
+msgstr "Stato"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__partner_id
+#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_due_line_search
+msgid "Supplier"
+msgstr "Fornitore"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__supplier_paid
+#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_due_line_search
+msgid "Supplier Paid"
+msgstr "Fornitore pagato"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__payment_date
+msgid "Supplier Payment Date"
+msgstr "Data pagamento fornitore"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__ref
+msgid "Supplier Reference"
+msgstr "Riferimento fornitore"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model,name:l10n_it_withholding_tax.model_account_tax
+msgid "Tax"
+msgstr "Imposta"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,help:l10n_it_withholding_tax.field_account_tax__l10n_it_wt_company_tax_id
+msgid ""
+"Tax charged to the company that is automatically added to a line whenever "
+"this withholding tax is applied (e.g. the ENASARCO company quota paired with"
+" the agent ENASARCO withholding). It is typically a reverse-charge tax, so "
+"it does not change the invoice total."
+msgstr "Imposta a carico dell'azienda aggiunta automaticamente a una riga ogni volta che viene applicata questa ritenuta (es. la quota ENASARCO azienda abbinata alla ritenuta ENASARCO dell'agente). È tipicamente un'imposta reverse-charge, quindi non modifica il totale della fattura."
+
+#. module: l10n_it_withholding_tax
+#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_due_line_list
+msgid "Total to pay"
+msgstr "Totale da versare"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,help:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__supplier_paid
+msgid ""
+"True when the source document has been paid to the supplier, which triggers "
+"the obligation to pay the withholding."
+msgstr "Vero quando il documento di origine è stato pagato al fornitore, il che fa scattare l'obbligo di versamento della ritenuta."
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,help:l10n_it_withholding_tax.field_withholding_payment__move_line_ids
+msgid "Unreconciled lines on the payable accounts to be paid."
+msgstr "Righe non riconciliate sui conti da versare, da pagare."
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,help:l10n_it_withholding_tax.field_withholding_payment_type__tax_ids
+msgid ""
+"Withholding / social security taxes (ritenute d'acconto, ENASARCO, cassa "
+"previdenziale) managed by this payment type. The payable accounts are "
+"derived from their tax repartition."
+msgstr "Imposte di ritenuta / previdenziali (ritenute d'acconto, ENASARCO, cassa previdenziale) gestite da questo tipo di pagamento. I conti da versare sono derivati dalla ripartizione delle imposte."
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__move_line_ids
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_create__line_ids
+msgid "Withholding Lines"
+msgstr "Righe ritenute"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_account_account__l10n_it_wt_payable
+msgid "Withholding Payable Account"
+msgstr "Conto ritenute da versare"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model,name:l10n_it_withholding_tax.model_withholding_payment_type
+msgid "Withholding Payment Type"
+msgstr "Tipo versamento ritenute"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.actions.act_window,name:l10n_it_withholding_tax.action_withholding_payment_type
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_account_account__l10n_it_wt_payment_type_ids
+#: model:ir.ui.menu,name:l10n_it_withholding_tax.menu_withholding_payment_type
+msgid "Withholding Payment Types"
+msgstr "Tipi versamento ritenute"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.actions.act_window,name:l10n_it_withholding_tax.action_withholding_payment
+msgid "Withholding Payments"
+msgstr "Versamenti ritenute"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model,name:l10n_it_withholding_tax.model_withholding_payment
+msgid "Withholding Tax Payment (F24)"
+msgstr "Versamento ritenute (F24)"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_type__tax_ids
+#: model:ir.ui.menu,name:l10n_it_withholding_tax.menu_withholding_root
+msgid "Withholding Taxes"
+msgstr "Ritenute"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model,name:l10n_it_withholding_tax.model_l10n_it_withholding_tax_report
+msgid "Withholding Taxes to Pay"
+msgstr "Ritenute da versare"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__tax_line_id
+#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_due_line_search
+msgid "Withholding Type"
+msgstr "Tipo ritenuta"
+
+#. module: l10n_it_withholding_tax
+#: model:ir.actions.act_window,name:l10n_it_withholding_tax.action_withholding_due_lines
+#: model:ir.ui.menu,name:l10n_it_withholding_tax.menu_withholding_due_lines
+#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_due_line_list
+#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_due_line_pivot
+msgid "Withholding to Pay"
+msgstr "Ritenute da versare"

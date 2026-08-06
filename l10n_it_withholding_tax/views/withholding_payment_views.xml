@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_withholding_payment_list" model="ir.ui.view">
+        <field name="name">withholding.payment.list</field>
+        <field name="model">withholding.payment</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state == 'confirmed'">
+                <field name="name" />
+                <field name="type_id" />
+                <field name="date" />
+                <field name="date_start" optional="show" />
+                <field name="date_stop" optional="show" />
+                <field name="amount" />
+                <field name="state" widget="badge" decoration-success="state == 'confirmed'" />
+                <field name="currency_id" column_invisible="1" />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_withholding_payment_form" model="ir.ui.view">
+        <field name="name">withholding.payment.form</field>
+        <field name="model">withholding.payment</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_load_lines" type="object" string="Load Due Lines"
+                            invisible="state != 'draft'" />
+                    <button name="action_confirm" type="object" string="Confirm"
+                            class="btn-primary" invisible="state != 'draft'" />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_move" type="object" class="oe_stat_button"
+                                icon="fa-book" invisible="not move_id">
+                            <span>Journal Entry</span>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1" /></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="type_id" readonly="state != 'draft'" />
+                            <field name="date" readonly="state != 'draft'" />
+                            <field name="date_payment" readonly="state != 'draft'" />
+                        </group>
+                        <group>
+                            <field name="date_start" readonly="state != 'draft'" />
+                            <field name="date_stop" readonly="state != 'draft'" />
+                            <field name="amount" />
+                            <field name="currency_id" column_invisible="1" />
+                            <field name="company_id" groups="base.group_multi_company" />
+                        </group>
+                    </group>
+                    <field name="move_line_ids" readonly="state != 'draft'">
+                        <list>
+                            <field name="date" />
+                            <field name="move_name" />
+                            <field name="partner_id" />
+                            <field name="account_id" />
+                            <field name="name" />
+                            <field name="balance" />
+                            <field name="reconciled" />
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_withholding_payment" model="ir.actions.act_window">
+        <field name="name">Withholding Payments</field>
+        <field name="res_model">withholding.payment</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

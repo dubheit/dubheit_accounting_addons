@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_withholding_due_line_list" model="ir.ui.view">
+        <field name="name">withholding.tax.report.list</field>
+        <field name="model">l10n_it.withholding.tax.report</field>
+        <field name="arch" type="xml">
+            <list string="Withholding to Pay" create="false" edit="false"
+                  delete="false" default_order="payment_date desc">
+                <field name="partner_id" />
+                <field name="move_name" string="Document" />
+                <field name="ref" optional="show" />
+                <field name="invoice_date" />
+                <field name="payment_date" decoration-muted="not supplier_paid" />
+                <field name="tax_line_id" />
+                <field name="account_id" optional="hide" />
+                <field name="amount_due" sum="Total to pay" />
+                <field name="reconciled" optional="hide" />
+                <field name="supplier_paid" column_invisible="1" />
+                <field name="currency_id" column_invisible="1" />
+                <field name="company_id" column_invisible="1"
+                       groups="base.group_multi_company" />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_withholding_due_line_pivot" model="ir.ui.view">
+        <field name="name">withholding.tax.report.pivot</field>
+        <field name="model">l10n_it.withholding.tax.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Withholding to Pay">
+                <field name="tax_line_id" type="row" />
+                <field name="partner_id" type="row" />
+                <field name="payment_date" interval="month" type="col" />
+                <field name="amount_due" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_withholding_due_line_search" model="ir.ui.view">
+        <field name="name">withholding.tax.report.search</field>
+        <field name="model">l10n_it.withholding.tax.report</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_id" />
+                <field name="tax_line_id" />
+                <field name="move_name" string="Document" />
+                <field name="account_id" />
+                <filter name="filter_supplier_paid" string="Supplier Paid"
+                        domain="[('supplier_paid', '=', True)]" />
+                <filter name="filter_not_paid_f24" string="Not Yet Paid (F24)"
+                        domain="[('reconciled', '=', False)]" />
+                <separator />
+                <filter name="filter_payment_date" date="payment_date" />
+                <filter name="filter_invoice_date" date="invoice_date" />
+                <group expand="1" string="Group By">
+                    <filter name="group_tax" string="Withholding Type"
+                            context="{'group_by': 'tax_line_id'}" />
+                    <filter name="group_partner" string="Supplier"
+                            context="{'group_by': 'partner_id'}" />
+                    <filter name="group_account" string="Payable Account"
+                            context="{'group_by': 'account_id'}" />
+                    <filter name="group_payment_month" string="Payment Month"
+                            context="{'group_by': 'payment_date:month'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_withholding_due_lines" model="ir.actions.act_window">
+        <field name="name">Withholding to Pay</field>
+        <field name="res_model">l10n_it.withholding.tax.report</field>
+        <field name="view_mode">list,pivot</field>
+        <field name="search_view_id" ref="view_withholding_due_line_search" />
+        <field name="domain">[('reconciled', '=', False), ('parent_state', '=', 'posted'), ('amount_due', '!=', 0)]</field>
+        <field name="context">{'search_default_group_tax': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No withholding taxes to pay.</p>
+            <p>Posted, still-unpaid lines on the withholding payable accounts
+               appear here, grouped by withholding type. Select them and use
+               <b>Actions &gt; Create Withholding Payment</b> to generate the
+               F24 entry and reconcile them.</p>
+        </field>
+    </record>
+</odoo>
