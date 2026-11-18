@@ -62,8 +62,9 @@ class WithholdingInvoiceReport(models.Model):
             SELECT MIN(aml.id) * 2 AS id, 'core' AS source,
                    CASE WHEN tax.type_tax_use = 'sale'
                         THEN 'suffered' ELSE 'operated' END AS wt_kind,
-                   aml.move_id AS invoice_id, am.partner_id,
-                   am.date AS invoice_date, aml.tax_line_id AS tax_id,
+                   aml.move_id AS invoice_id,
+                   am.commercial_partner_id AS partner_id,
+                   am.invoice_date, aml.tax_line_id AS tax_id,
                    tax.l10n_it_withholding_type AS withholding_code,
                    tax.l10n_it_withholding_reason AS reason,
                    SUM(sgn.sign * ABS(aml.tax_base_amount)) AS gross_amount,
@@ -98,7 +99,8 @@ class WithholdingInvoiceReport(models.Model):
               AND tax.l10n_it_withholding_type IS NOT NULL
               AND (comp.l10n_it_wt_start_date IS NULL
                    OR am.date >= comp.l10n_it_wt_start_date)
-            GROUP BY aml.move_id, aml.tax_line_id, am.partner_id, am.date,
+            GROUP BY aml.move_id, aml.tax_line_id, am.commercial_partner_id,
+                     am.invoice_date,
                      tax.type_tax_use, tax.l10n_it_withholding_type,
                      tax.l10n_it_withholding_reason, tax.l10n_it_wt_base_percent,
                      aml.company_id, aml.company_currency_id

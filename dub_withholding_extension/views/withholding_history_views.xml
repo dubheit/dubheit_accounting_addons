@@ -57,7 +57,8 @@
                     </group>
                     <notebook>
                         <page string="Payments" name="payments">
-                            <field name="move_ids">
+                            <field name="move_ids"
+                                   context="{'default_partner_id': partner_id}">
                                 <list editable="bottom">
                                     <field name="date" />
                                     <field name="partner_id" />

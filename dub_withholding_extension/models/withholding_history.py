@@ -181,7 +181,8 @@ class WithholdingHistoryStatement(models.Model):
             cr.execute(
                 """
                 SELECT m.id, m.statement_id,
-                       COALESCE(m.partner_id, s.partner_id, am.partner_id) AS partner_id,
+                       COALESCE(m.partner_id, s.partner_id, am.partner_id)
+                           AS partner_id,
                        m.date, m.amount, m.state
                   FROM withholding_tax_move m
                   JOIN withholding_tax_statement s ON s.id = m.statement_id
@@ -209,7 +210,8 @@ class WithholdingHistoryStatement(models.Model):
                         "state": "paid" if row["state"] == "paid" else "due",
                     }
                 )
-            result["moves"] = len(self.env["withholding.history.move"].create(move_vals))
+            moves = self.env["withholding.history.move"].create(move_vals)
+            result["moves"] = len(moves)
 
         _logger.info(
             "OCA withholding history: read %s statements, imported %s statements "

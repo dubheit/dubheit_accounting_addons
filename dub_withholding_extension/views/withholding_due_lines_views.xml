@@ -19,6 +19,8 @@
                 <field name="taxable_amount" sum="Total" />
                 <field name="amount" sum="Total" />
                 <field name="paid_f24" />
+                <field name="amount_paid_f24" sum="Total" optional="hide" />
+                <field name="reconciled" optional="hide" />
                 <field name="withholding_payment_id" optional="hide" />
                 <field name="f24_date" optional="hide" />
                 <field name="source" optional="show" />
@@ -54,7 +56,8 @@
                 <field name="gross_amount" sum="Total" />
                 <field name="taxable_amount" sum="Total" />
                 <field name="amount" sum="Total" />
-                <field name="paid_f24" />
+                <field name="amount_paid_f24" sum="Total" />
+                <field name="paid_f24" optional="hide" />
                 <field name="currency_id" column_invisible="1" />
             </list>
         </field>
@@ -115,17 +118,39 @@
         </field>
     </record>
 
+    <record id="view_withholding_cu_summary_search" model="ir.ui.view">
+        <field name="name">withholding.tax.report.cu.summary.search</field>
+        <field name="model">l10n_it.withholding.tax.report</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_id" />
+                <field name="reason" />
+                <filter name="filter_payment_date" string="Payment Date"
+                        date="payment_date" />
+                <group expand="0" string="Group By">
+                    <filter name="group_partner" string="Partner"
+                            context="{'group_by': 'partner_id'}" />
+                    <filter name="group_reason" string="Reason"
+                            context="{'group_by': 'reason'}" />
+                    <filter name="group_year" string="Payment Year"
+                            context="{'group_by': 'payment_date:year'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
     <record id="action_withholding_due_lines" model="ir.actions.act_window">
         <field name="name">Withholding to Pay</field>
         <field name="res_model">l10n_it.withholding.tax.report</field>
         <field name="view_mode">list,pivot</field>
         <field name="search_view_id" ref="view_withholding_due_line_search" />
-        <field name="domain">[('source', '=', 'core'), ('wt_kind', '=', 'operated'), ('paid_f24', '=', False)]</field>
+        <field name="domain">[('source', '=', 'core'), ('wt_kind', '=', 'operated'), ('reconciled', '=', False)]</field>
         <field name="context">{'search_default_group_tax': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">No withholding taxes to pay.</p>
             <p>Withholding taxes on paid vendor bills appear here until an F24
-               payment settles them. Select them and use
+               payment or another entry settles them. Select them and use
                <b>Actions &gt; Create Withholding Payment</b> to generate the
                F24 entry and reconcile them.</p>
         </field>
@@ -148,7 +173,7 @@
         <field name="name">CU Summary</field>
         <field name="res_model">l10n_it.withholding.tax.report</field>
         <field name="view_mode">pivot,list</field>
-        <field name="search_view_id" ref="view_withholding_due_line_search" />
+        <field name="search_view_id" ref="view_withholding_cu_summary_search" />
         <field name="domain">[('wt_kind', '=', 'operated'), ('irpef', '=', True)]</field>
         <field name="context">{'pivot_row_groupby': ['partner_id', 'reason'], 'pivot_column_groupby': ['payment_date:year'], 'pivot_measures': ['gross_amount', 'taxable_amount', 'amount']}</field>
         <field name="help" type="html">

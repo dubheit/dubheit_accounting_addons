@@ -6,6 +6,7 @@ from datetime import date
 from odoo import Command
 from odoo.exceptions import UserError
 from odoo.tools.misc import file_path
+from odoo.tools.safe_eval import safe_eval
 
 from .common import WithholdingCommon
 
@@ -95,6 +96,7 @@ class TestF24(WithholdingCommon):
             [
                 {
                     "paid_f24": True,
+                    "amount_paid_f24": 200.0,
                     "withholding_payment_id": f24.id,
                     "f24_date": date(2026, 1, 16),
                 }
@@ -284,3 +286,41 @@ class TestF24(WithholdingCommon):
         self.assertEqual(self.f24_type.account_ids, self.wt_payable)
         self.assertTrue(self.wt_payable.reconcile)
         self.assertFalse(report_filter.exists())
+
+    def test_reconciled_elsewhere_not_to_pay(self):
+        bill = self._paid_bill(self.wt_purchase)
+        line = self._register_rows(bill).move_line_id
+        closing = self.env["account.move"].create(
+            {
+                "move_type": "entry",
+                "date": "2026-01-16",
+                "line_ids": [
+                    Command.create(
+                        {"account_id": self.wt_payable.id, "debit": 200.0}
+                    ),
+                    Command.create(
+                        {
+                            "account_id": self.f24_type.counterpart_account_id.id,
+                            "credit": 200.0,
+                        }
+                    ),
+                ],
+            }
+        )
+        closing.action_post()
+        (
+            line
+            | closing.line_ids.filtered(
+                lambda aml: aml.account_id == self.wt_payable
+            )
+        ).reconcile()
+        self.assertRecordValues(
+            self._register_rows(bill),
+            [{"reconciled": True, "paid_f24": False, "amount_paid_f24": 0.0}],
+        )
+        action = self.env.ref("dub_withholding_extension.action_withholding_due_lines")
+        self.assertFalse(
+            self.env["l10n_it.withholding.tax.report"].search(
+                safe_eval(action.domain) + [("invoice_id", "=", bill.id)]
+            )
+        )

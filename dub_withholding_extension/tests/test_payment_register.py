@@ -29,6 +29,7 @@ class TestPaymentRegister(WithholdingCommon):
                     "gross_amount": 500.0,
                     "taxable_amount": 500.0,
                     "paid_f24": False,
+                    "amount_paid_f24": 0.0,
                 },
                 {
                     "source": "core",
@@ -38,6 +39,7 @@ class TestPaymentRegister(WithholdingCommon):
                     "gross_amount": 500.0,
                     "taxable_amount": 500.0,
                     "paid_f24": False,
+                    "amount_paid_f24": 0.0,
                 },
             ],
         )
@@ -65,6 +67,7 @@ class TestPaymentRegister(WithholdingCommon):
             "in_invoice", 1000.0, self.vat_purchase + self.wt_purchase, "2025-12-01"
         )
         payment = self._wt_pay(bill, bill.amount_total, "2025-12-20")
+        self.assertTrue(self._register_rows(bill))
         payment.action_draft()
         self.assertFalse(self._register_rows(bill))
 
@@ -180,6 +183,7 @@ class TestPaymentRegister(WithholdingCommon):
                     "gross_amount": 200.0,
                     "taxable_amount": 100.0,
                     "paid_f24": True,
+                    "amount_paid_f24": 23.0,
                     "reason": "T",
                     "payment_date": date(2022, 4, 1),
                 }

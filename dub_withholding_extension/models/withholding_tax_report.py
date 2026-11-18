@@ -49,6 +49,7 @@ class WithholdingTaxReport(models.Model):
     gross_amount = fields.Monetary(readonly=True)
     taxable_amount = fields.Monetary(readonly=True)
     paid_f24 = fields.Boolean(string="Paid (F24)", readonly=True)
+    amount_paid_f24 = fields.Monetary(string="Paid via F24 (amount)", readonly=True)
     withholding_payment_id = fields.Many2one(
         "withholding.payment", string="F24 Payment", readonly=True
     )
@@ -71,6 +72,10 @@ class WithholdingTaxReport(models.Model):
                 self._query_history(),
             )
         )
+        # the register by invoice reads this view: the drop above (CASCADE)
+        # removed it, create it again
+        if "l10n_it.withholding.invoice.report" in self.env:
+            self.env["l10n_it.withholding.invoice.report"].init()
 
     def _query_core(self):
         """Withholding lines of the posted, not reversed cash basis entries.
@@ -101,6 +106,8 @@ class WithholdingTaxReport(models.Model):
                          * tax.l10n_it_wt_base_percent::numeric / 100, 2)
                        AS taxable_amount,
                    (f24.payment_id IS NOT NULL) AS paid_f24,
+                   CASE WHEN f24.payment_id IS NOT NULL
+                        THEN amt.amount ELSE 0 END AS amount_paid_f24,
                    f24.payment_id AS withholding_payment_id,
                    f24.date AS f24_date,
                    aml.reconciled,
@@ -172,6 +179,8 @@ class WithholdingTaxReport(models.Model):
                    ROUND(hm.amount * hs.taxable_amount
                          / NULLIF(hs.amount, 0), 2) AS taxable_amount,
                    COALESCE(hm.state = 'paid', FALSE) AS paid_f24,
+                   CASE WHEN hm.state = 'paid'
+                        THEN hm.amount ELSE 0 END AS amount_paid_f24,
                    NULL::int AS withholding_payment_id,
                    NULL::date AS f24_date,
                    COALESCE(hm.state = 'paid', FALSE) AS reconciled,

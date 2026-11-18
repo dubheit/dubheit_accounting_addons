@@ -3,7 +3,10 @@
 
 {
     "name": "Italian Localization - Withholding Tax Extension",
-    "summary": "Withholding register, F24 payments, CU summary and OCA history on top of native taxes",
+    "summary": (
+        "Withholding register, F24 payments, CU summary and OCA history on top "
+        "of native taxes"
+    ),
     "version": "18.0.3.0.0",
     "category": "Accounting/Localizations",
     "author": "Dubhe Srls",
