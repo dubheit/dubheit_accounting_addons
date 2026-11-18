@@ -1,9 +1,11 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import importlib.util
 from datetime import date
 
 from odoo import Command
 from odoo.exceptions import UserError
+from odoo.tools.misc import file_path
 
 from .common import WithholdingCommon
 
@@ -238,3 +240,47 @@ class TestF24(WithholdingCommon):
         january = self._f24(date_start="2026-01-01", date_stop="2026-01-31")
         january.action_load_lines()
         self.assertFalse(january.move_line_ids)
+
+    def _break_type_accounts(self):
+        """Payment type as left by 18.0.2.0.0: no accounts, 2602 not
+        reconcilable."""
+        cr = self.env.cr
+        cr.execute(
+            "DELETE FROM wt_payment_type_account_rel WHERE type_id = %s",
+            [self.f24_type.id],
+        )
+        cr.execute(
+            "UPDATE account_account SET reconcile = FALSE WHERE id = %s",
+            [self.wt_payable.id],
+        )
+        self.env.invalidate_all()
+        self.assertFalse(self.f24_type.account_ids)
+        self.assertFalse(self.wt_payable.reconcile)
+
+    def test_refresh_accounts(self):
+        self._break_type_accounts()
+        self.f24_type._l10n_it_wt_refresh_accounts()
+        self.assertEqual(self.f24_type.account_ids, self.wt_payable)
+        self.assertTrue(self.wt_payable.reconcile)
+
+    def test_migration_script(self):
+        self._break_type_accounts()
+        self.f24_type.active = False
+        report_filter = self.env["ir.filters"].create(
+            {
+                "name": "Old register filter",
+                "model_id": "l10n_it.withholding.tax.report",
+                "active": False,
+            }
+        )
+        path = file_path(
+            "dub_withholding_extension/migrations/18.0.3.0.0/post-migrate.py"
+        )
+        spec = importlib.util.spec_from_file_location("wt_post_migrate", path)
+        script = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(script)
+        script.migrate(self.env.cr, "18.0.2.0.0")
+        self.env.invalidate_all()
+        self.assertEqual(self.f24_type.account_ids, self.wt_payable)
+        self.assertTrue(self.wt_payable.reconcile)
+        self.assertFalse(report_filter.exists())

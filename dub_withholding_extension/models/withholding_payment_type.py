@@ -1,6 +1,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import Command, _, api, fields, models
 
 
 class WithholdingPaymentType(models.Model):
@@ -77,16 +77,24 @@ class WithholdingPaymentType(models.Model):
                 )
             rec.l10n_it_wt_config_warning = warning
 
+    def _l10n_it_wt_tax_accounts(self):
+        """Accounts of the tax repartition lines (invoice side) of the taxes."""
+        self.ensure_one()
+        return self.tax_ids.invoice_repartition_line_ids.filtered(
+            lambda line: line.repartition_type == "tax" and line.account_id
+        ).account_id
+
     @api.depends("tax_ids")
     def _compute_account_ids(self):
         for rec in self:
-            accounts = self.env["account.account"]
-            for tax in rec.tax_ids:
-                accounts |= tax.invoice_repartition_line_ids.filtered(
-                    lambda line: line.repartition_type == "tax"
-                    and line.account_id
-                ).account_id
-            rec.account_ids = [(6, 0, accounts.ids)]
+            rec.account_ids = [Command.set(rec._l10n_it_wt_tax_accounts().ids)]
+
+    def _l10n_it_wt_refresh_accounts(self):
+        """Recompute the payable accounts from the taxes and make them
+        reconcilable: types saved before 18.0.3.0.0 keep stale accounts."""
+        for rec in self:
+            rec.account_ids = [Command.set(rec._l10n_it_wt_tax_accounts().ids)]
+        self._l10n_it_wt_make_accounts_reconcilable()
 
     def _l10n_it_wt_make_accounts_reconcilable(self):
         """Make the payable accounts reconcilable, so the F24 can be matched
