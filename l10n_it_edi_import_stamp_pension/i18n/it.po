@@ -1,0 +1,88 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_it_edi_import_stamp_pension
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20260908\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-18 10:40+0000\n"
+"PO-Revision-Date: 2026-11-18 10:40+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_it_edi_import_stamp_pension
+#: model:ir.model,name:l10n_it_edi_import_stamp_pension.model_res_company
+msgid "Companies"
+msgstr "Aziende"
+
+#. module: l10n_it_edi_import_stamp_pension
+#: model:ir.model,name:l10n_it_edi_import_stamp_pension.model_res_config_settings
+msgid "Config Settings"
+msgstr "Impostazioni di configurazione"
+
+#. module: l10n_it_edi_import_stamp_pension
+#: model:ir.model.fields,field_description:l10n_it_edi_import_stamp_pension.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_it_edi_import_stamp_pension.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_it_edi_import_stamp_pension.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr "Nome visualizzato"
+
+#. module: l10n_it_edi_import_stamp_pension
+#: model:ir.model.fields,field_description:l10n_it_edi_import_stamp_pension.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_it_edi_import_stamp_pension.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_it_edi_import_stamp_pension.field_res_config_settings__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_it_edi_import_stamp_pension
+#: model:ir.model,name:l10n_it_edi_import_stamp_pension.model_account_move
+msgid "Journal Entry"
+msgstr "Registrazione contabile"
+
+#. module: l10n_it_edi_import_stamp_pension
+#: model_terms:ir.ui.view,arch_db:l10n_it_edi_import_stamp_pension.res_config_settings_view_form
+msgid ""
+"Product used for the stamp duty line added to imported vendor bills when the"
+" supplier charges it."
+msgstr ""
+"Prodotto usato per la riga dell'imposta di bollo aggiunta alle fatture "
+"fornitore importate quando il fornitore la addebita."
+
+#. module: l10n_it_edi_import_stamp_pension
+#: model:ir.model.fields,help:l10n_it_edi_import_stamp_pension.field_res_company__l10n_it_edi_stamp_purchase_product_id
+#: model:ir.model.fields,help:l10n_it_edi_import_stamp_pension.field_res_config_settings__l10n_it_edi_stamp_purchase_product_id
+msgid ""
+"Product used for the stamp duty line added to imported vendor bills when the"
+" supplier charges it. Its expense account and purchase taxes are used on the"
+" line."
+msgstr ""
+"Prodotto usato per la riga dell'imposta di bollo aggiunta alle fatture "
+"fornitore importate quando il fornitore la addebita. Sulla riga si usano il "
+"suo conto di costo e le sue imposte di acquisto."
+
+#. module: l10n_it_edi_import_stamp_pension
+#: model:ir.model.fields,field_description:l10n_it_edi_import_stamp_pension.field_res_company__l10n_it_edi_stamp_purchase_product_id
+#: model:ir.model.fields,field_description:l10n_it_edi_import_stamp_pension.field_res_config_settings__l10n_it_edi_stamp_purchase_product_id
+msgid "Stamp Duty Product (Vendor Bills)"
+msgstr "Prodotto imposta di bollo (fatture fornitore)"
+
+#. module: l10n_it_edi_import_stamp_pension
+#: model_terms:ir.ui.view,arch_db:l10n_it_edi_import_stamp_pension.res_config_settings_view_form
+msgid "Stamp Duty on Vendor Bills"
+msgstr "Imposta di bollo sulle fatture fornitore"
+
+#. module: l10n_it_edi_import_stamp_pension
+#. odoo-python
+#: code:addons/l10n_it_edi_import_stamp_pension/models/account_move.py:0
+msgid ""
+"Stamp duty of %(amount)s not added: set the stamp duty product in the "
+"Italian Electronic Invoicing settings."
+msgstr ""
+"Imposta di bollo di %(amount)s non aggiunta: imposta il prodotto per "
+"l'imposta di bollo nelle impostazioni della Fatturazione Elettronica "
+"Italiana."

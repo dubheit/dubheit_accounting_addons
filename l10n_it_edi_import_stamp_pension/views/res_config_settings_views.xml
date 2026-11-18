@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.l10n_it_edi_import_stamp_pension</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="l10n_it_edi.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//setting[@id='l10n_it_edi_setting']" position="after">
+                <setting id="l10n_it_edi_stamp_purchase_product_setting"
+                         string="Stamp Duty on Vendor Bills"
+                         help="Product used for the stamp duty line added to imported vendor bills when the supplier charges it.">
+                    <field name="l10n_it_edi_stamp_purchase_product_id"/>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>
