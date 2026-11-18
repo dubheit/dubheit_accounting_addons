@@ -1,6 +1,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 WT_KIND_SELECTION = [("operated", "Operated"), ("suffered", "Suffered")]
 
@@ -34,10 +34,15 @@ class WithholdingHistoryStatement(models.Model):
     )
     amount_paid = fields.Monetary(compute="_compute_amount_paid")
 
-    _sql_constraints = [
-        ("oca_id_unique", "unique(oca_id)", "The OCA ID must be unique."),
-    ]
 
+    def init(self):
+        self.env.cr.execute(
+            "CREATE UNIQUE INDEX IF NOT EXISTS "
+            "withholding_history_statement_oca_id_uniq "
+            "ON withholding_history_statement (oca_id) WHERE oca_id > 0"
+        )
+
+    @api.depends("move_ids.amount")
     def _compute_amount_paid(self):
         for statement in self:
             statement.amount_paid = sum(statement.move_ids.mapped("amount"))
@@ -66,6 +71,9 @@ class WithholdingHistoryMove(models.Model):
         default="due",
     )
 
-    _sql_constraints = [
-        ("oca_id_unique", "unique(oca_id)", "The OCA ID must be unique."),
-    ]
+    def init(self):
+        self.env.cr.execute(
+            "CREATE UNIQUE INDEX IF NOT EXISTS "
+            "withholding_history_move_oca_id_uniq "
+            "ON withholding_history_move (oca_id) WHERE oca_id > 0"
+        )

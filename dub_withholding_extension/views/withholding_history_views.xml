@@ -41,7 +41,7 @@
                             <field name="reason" />
                             <field name="rate" />
                             <field name="base_coeff" />
-                            <field name="oca_id" />
+                            <field name="oca_id" readonly="True" />
                         </group>
                     </group>
                     <group>
