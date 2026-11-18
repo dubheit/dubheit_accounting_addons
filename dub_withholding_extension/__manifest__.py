@@ -14,6 +14,7 @@
         "l10n_it_edi_withholding",
     ],
     "data": [
+        "security/security.xml",
         "security/ir.model.access.csv",
         "data/sequence.xml",
         "views/account_tax_views.xml",
@@ -21,6 +22,7 @@
         "views/withholding_payment_views.xml",
         "views/withholding_due_lines_views.xml",
         "wizard/withholding_payment_create_views.xml",
+        "views/withholding_history_views.xml",
         "views/menu_views.xml",
     ],
     "installable": True,

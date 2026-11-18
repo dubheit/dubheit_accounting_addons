@@ -21,6 +21,13 @@
         action="action_withholding_payment"
         sequence="10"
     />
+    <menuitem
+        id="menu_withholding_history"
+        name="OCA History"
+        parent="menu_withholding_root"
+        action="action_withholding_history_statement"
+        sequence="40"
+    />
 
     <!-- Configuration -->
     <menuitem
