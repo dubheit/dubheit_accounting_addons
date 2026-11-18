@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="withholding_history_statement_company_rule" model="ir.rule">
+        <field name="name">Withholding history statement: multi-company</field>
+        <field name="model_id" ref="model_withholding_history_statement" />
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="withholding_history_move_company_rule" model="ir.rule">
+        <field name="name">Withholding history payment: multi-company</field>
+        <field name="model_id" ref="model_withholding_history_move" />
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="withholding_tax_report_company_rule" model="ir.rule">
+        <field name="name">Withholding register by payment: multi-company</field>
+        <field name="model_id" ref="model_l10n_it_withholding_tax_report" />
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="withholding_invoice_report_company_rule" model="ir.rule">
+        <field name="name">Withholding register by invoice: multi-company</field>
+        <field name="model_id" ref="model_l10n_it_withholding_invoice_report" />
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

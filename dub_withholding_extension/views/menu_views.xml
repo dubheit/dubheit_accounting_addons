@@ -15,11 +15,39 @@
         sequence="5"
     />
     <menuitem
+        id="menu_withholding_register"
+        name="Register by Payment"
+        parent="menu_withholding_root"
+        action="action_withholding_register"
+        sequence="10"
+    />
+    <menuitem
+        id="menu_withholding_invoice_register"
+        name="Register by Invoice"
+        parent="menu_withholding_root"
+        action="action_withholding_invoice_register"
+        sequence="15"
+    />
+    <menuitem
+        id="menu_withholding_cu_summary"
+        name="CU Summary"
+        parent="menu_withholding_root"
+        action="action_withholding_cu_summary"
+        sequence="20"
+    />
+    <menuitem
         id="menu_withholding_payment"
-        name="Payments"
+        name="Payments (F24)"
         parent="menu_withholding_root"
         action="action_withholding_payment"
-        sequence="10"
+        sequence="30"
+    />
+    <menuitem
+        id="menu_withholding_history"
+        name="OCA History"
+        parent="menu_withholding_root"
+        action="action_withholding_history_statement"
+        sequence="40"
     />
 
     <!-- Configuration -->

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_withholding_due_line_list" model="ir.ui.view">
+        <field name="name">withholding.tax.report.list</field>
+        <field name="model">l10n_it.withholding.tax.report</field>
+        <field name="arch" type="xml">
+            <list string="Withholding Register" create="false" edit="false"
+                  delete="false">
+                <field name="payment_date" />
+                <field name="partner_id" />
+                <field name="partner_fiscalcode" optional="hide" />
+                <field name="partner_vat" optional="hide" />
+                <field name="invoice_id" />
+                <field name="wt_kind" optional="hide" />
+                <field name="tax_id" optional="show" />
+                <field name="withholding_code" optional="hide" />
+                <field name="reason" optional="show" />
+                <field name="gross_amount" sum="Total" />
+                <field name="taxable_amount" sum="Total" />
+                <field name="amount" sum="Total" />
+                <field name="paid_f24" />
+                <field name="amount_paid_f24" sum="Total" optional="hide" />
+                <field name="reconciled" optional="hide" />
+                <field name="withholding_payment_id" optional="hide" />
+                <field name="f24_date" optional="hide" />
+                <field name="source" optional="show" />
+                <field name="currency_id" column_invisible="1" />
+                <field name="company_id" optional="hide"
+                       groups="base.group_multi_company" />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_withholding_due_line_pivot" model="ir.ui.view">
+        <field name="name">withholding.tax.report.pivot</field>
+        <field name="model">l10n_it.withholding.tax.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Withholding Register">
+                <field name="partner_id" type="row" />
+                <field name="payment_date" interval="year" type="col" />
+                <field name="amount" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_withholding_cu_summary_list" model="ir.ui.view">
+        <field name="name">withholding.tax.report.cu.summary.list</field>
+        <field name="model">l10n_it.withholding.tax.report</field>
+        <field name="arch" type="xml">
+            <list string="CU Summary" create="false" edit="false" delete="false">
+                <field name="partner_id" />
+                <field name="partner_fiscalcode" />
+                <field name="partner_vat" />
+                <field name="reason" />
+                <field name="payment_date" />
+                <field name="gross_amount" sum="Total" />
+                <field name="taxable_amount" sum="Total" />
+                <field name="amount" sum="Total" />
+                <field name="amount_paid_f24" sum="Total" />
+                <field name="paid_f24" optional="hide" />
+                <field name="currency_id" column_invisible="1" />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_withholding_cu_summary_pivot" model="ir.ui.view">
+        <field name="name">withholding.tax.report.cu.summary.pivot</field>
+        <field name="model">l10n_it.withholding.tax.report</field>
+        <field name="arch" type="xml">
+            <pivot string="CU Summary">
+                <field name="partner_id" type="row" />
+                <field name="reason" type="row" />
+                <field name="payment_date" interval="year" type="col" />
+                <field name="gross_amount" type="measure" />
+                <field name="taxable_amount" type="measure" />
+                <field name="amount" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_withholding_due_line_search" model="ir.ui.view">
+        <field name="name">withholding.tax.report.search</field>
+        <field name="model">l10n_it.withholding.tax.report</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_id" />
+                <field name="invoice_id" />
+                <field name="tax_id" />
+                <field name="reason" />
+                <filter name="filter_operated" string="Operated"
+                        domain="[('wt_kind', '=', 'operated')]" />
+                <filter name="filter_suffered" string="Suffered"
+                        domain="[('wt_kind', '=', 'suffered')]" />
+                <separator />
+                <filter name="filter_to_pay" string="Not Paid (F24)"
+                        domain="[('paid_f24', '=', False)]" />
+                <filter name="filter_paid" string="Paid (F24)"
+                        domain="[('paid_f24', '=', True)]" />
+                <separator />
+                <filter name="filter_core" string="Odoo"
+                        domain="[('source', '=', 'core')]" />
+                <filter name="filter_oca" string="OCA History"
+                        domain="[('source', '=', 'oca')]" />
+                <separator />
+                <filter name="filter_payment_date" string="Payment Date"
+                        date="payment_date" />
+                <group expand="0" string="Group By">
+                    <filter name="group_partner" string="Partner"
+                            context="{'group_by': 'partner_id'}" />
+                    <filter name="group_year" string="Payment Year"
+                            context="{'group_by': 'payment_date:year'}" />
+                    <filter name="group_reason" string="Reason"
+                            context="{'group_by': 'reason'}" />
+                    <filter name="group_tax" string="Withholding Tax"
+                            context="{'group_by': 'tax_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_withholding_cu_summary_search" model="ir.ui.view">
+        <field name="name">withholding.tax.report.cu.summary.search</field>
+        <field name="model">l10n_it.withholding.tax.report</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_id" />
+                <field name="reason" />
+                <filter name="filter_payment_date" string="Payment Date"
+                        date="payment_date" />
+                <group expand="0" string="Group By">
+                    <filter name="group_partner" string="Partner"
+                            context="{'group_by': 'partner_id'}" />
+                    <filter name="group_reason" string="Reason"
+                            context="{'group_by': 'reason'}" />
+                    <filter name="group_year" string="Payment Year"
+                            context="{'group_by': 'payment_date:year'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_withholding_due_lines" model="ir.actions.act_window">
+        <field name="name">Withholding to Pay</field>
+        <field name="res_model">l10n_it.withholding.tax.report</field>
+        <field name="view_mode">list,pivot</field>
+        <field name="search_view_id" ref="view_withholding_due_line_search" />
+        <field name="domain">[('source', '=', 'core'), ('wt_kind', '=', 'operated'), ('reconciled', '=', False)]</field>
+        <field name="context">{'search_default_group_tax': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No withholding taxes to pay.</p>
+            <p>Withholding taxes on paid vendor bills appear here until an F24
+               payment or another entry settles them. Select them and use
+               <b>Actions &gt; Create Withholding Payment</b> to generate the
+               F24 entry and reconcile them.</p>
+        </field>
+    </record>
+
+    <record id="action_withholding_register" model="ir.actions.act_window">
+        <field name="name">Register by Payment</field>
+        <field name="res_model">l10n_it.withholding.tax.report</field>
+        <field name="view_mode">list,pivot</field>
+        <field name="search_view_id" ref="view_withholding_due_line_search" />
+        <field name="context">{'search_default_filter_operated': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No withholding taxes paid yet.</p>
+            <p>One row per payment of an invoice with withholding taxes, from
+               the cash basis entries and from the OCA history.</p>
+        </field>
+    </record>
+
+    <record id="action_withholding_cu_summary" model="ir.actions.act_window">
+        <field name="name">CU Summary</field>
+        <field name="res_model">l10n_it.withholding.tax.report</field>
+        <field name="view_mode">pivot,list</field>
+        <field name="search_view_id" ref="view_withholding_cu_summary_search" />
+        <field name="domain">[('wt_kind', '=', 'operated'), ('irpef', '=', True)]</field>
+        <field name="context">{'pivot_row_groupby': ['partner_id', 'reason'], 'pivot_column_groupby': ['payment_date:year'], 'pivot_measures': ['gross_amount', 'taxable_amount', 'amount']}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No operated withholding taxes.</p>
+            <p>Gross amount, taxable amount and IRPEF withholding by partner,
+               reason and payment year: the figures for the Certificazione
+               Unica.</p>
+        </field>
+    </record>
+
+    <record id="action_withholding_cu_summary_view_pivot" model="ir.actions.act_window.view">
+        <field name="sequence">1</field>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="view_withholding_cu_summary_pivot" />
+        <field name="act_window_id" ref="action_withholding_cu_summary" />
+    </record>
+
+    <record id="action_withholding_cu_summary_view_list" model="ir.actions.act_window.view">
+        <field name="sequence">2</field>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_withholding_cu_summary_list" />
+        <field name="act_window_id" ref="action_withholding_cu_summary" />
+    </record>
+</odoo>
