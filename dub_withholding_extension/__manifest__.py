@@ -2,9 +2,9 @@
 # Copyright 2026 Dubhe Srls
 
 {
-    "name": "Italian Localization - Withholding Tax Management",
-    "summary": "Manage withholding tax / ENASARCO payments (F24) on top of native taxes",
-    "version": "18.0.2.0.0",
+    "name": "Italian Localization - Withholding Tax Extension",
+    "summary": "Withholding register, F24 payments, CU summary and OCA history on top of native taxes",
+    "version": "18.0.3.0.0",
     "category": "Accounting/Localizations",
     "author": "Dubhe Srls",
     "website": "https://github.com/dubheit/dubheit_accounting_addons",
