@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20260926\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-18 10:13+0000\n"
-"PO-Revision-Date: 2026-11-18 10:13+0000\n"
+"POT-Creation-Date: 2026-11-18 10:53+0000\n"
+"PO-Revision-Date: 2026-11-18 10:53+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -72,7 +72,7 @@ msgstr "Importo"
 #. module: dub_withholding_extension
 #: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_statement__amount_paid
 msgid "Amount Paid"
-msgstr "Importo versato"
+msgstr "Ritenuta operata"
 
 #. module: dub_withholding_extension
 #: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__message_attachment_count
@@ -283,11 +283,13 @@ msgstr "Compenso lordo"
 #. module: dub_withholding_extension
 #: model_terms:ir.actions.act_window,help:dub_withholding_extension.action_withholding_cu_summary
 msgid ""
-"Gross amount, taxable amount and withholding by partner, reason\n"
-"               and payment year: the figures for the Certificazione Unica."
-msgstr "Compenso lordo, imponibile e ritenuta per partner, causale\n               e anno di pagamento: i dati per la Certificazione Unica."
+"Gross amount, taxable amount and IRPEF withholding by partner,\n"
+"               reason and payment year: the figures for the Certificazione\n"
+"               Unica."
+msgstr "Compenso lordo, imponibile e ritenuta IRPEF per partner,\n               causale e anno di pagamento: i dati per la Certificazione\n               Unica."
 
 #. module: dub_withholding_extension
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_cu_summary_search
 #: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_due_line_search
 #: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_invoice_report_search
 msgid "Group By"
@@ -308,6 +310,18 @@ msgstr "Ha un messaggio"
 #: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__id
 msgid "ID"
 msgstr "ID"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__irpef
+msgid "IRPEF"
+msgstr "IRPEF"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,help:dub_withholding_extension.field_l10n_it_withholding_tax_report__irpef
+msgid ""
+"IRPEF withholding (RT01, RT02 or an OCA 'ritenuta'): the only kind in the CU"
+" summary, not ENASARCO, INPS or ENPAM contributions."
+msgstr "Ritenuta IRPEF (RT01, RT02 o 'ritenuta' OCA): l'unica nel riepilogo CU, esclusi i contributi ENASARCO, INPS ed ENPAM."
 
 #. module: dub_withholding_extension
 #: model:ir.model.fields,help:dub_withholding_extension.field_withholding_payment_type__message_needaction
@@ -431,7 +445,7 @@ msgstr "Nessuna riga di ritenuta da versare."
 #. module: dub_withholding_extension
 #: model_terms:ir.actions.act_window,help:dub_withholding_extension.action_withholding_register
 msgid "No withholding taxes paid yet."
-msgstr "Nessuna ritenuta ancora versata."
+msgstr "Nessuna ritenuta ancora operata."
 
 #. module: dub_withholding_extension
 #: model_terms:ir.actions.act_window,help:dub_withholding_extension.action_withholding_due_lines
@@ -483,6 +497,11 @@ msgid "OCA ID"
 msgstr "ID OCA"
 
 #. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_statement__oca_wt_types
+msgid "OCA Withholding Type"
+msgstr "Tipo ritenuta OCA"
+
+#. module: dub_withholding_extension
 #: model:ir.model.fields.selection,name:dub_withholding_extension.selection__l10n_it_withholding_invoice_report__source__oca
 #: model:ir.model.fields.selection,name:dub_withholding_extension.selection__l10n_it_withholding_tax_report__source__oca
 msgid "OCA history"
@@ -502,7 +521,7 @@ msgid ""
 "One row per invoice and withholding tax, with the amount already\n"
 "               paid and the residual, from the posted invoices and from the OCA\n"
 "               history."
-msgstr "Una riga per fattura e ritenuta, con l'importo già\n               versato e il residuo, dalle fatture registrate e dallo\n               storico OCA."
+msgstr "Una riga per fattura e ritenuta, con la ritenuta già\n               operata e il residuo, dalle fatture registrate e dallo\n               storico OCA."
 
 #. module: dub_withholding_extension
 #: model_terms:ir.actions.act_window,help:dub_withholding_extension.action_withholding_register
@@ -530,7 +549,7 @@ msgstr "Operata"
 #: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__paid_f24
 #: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_due_line_search
 msgid "Paid (F24)"
-msgstr "Versato (F24)"
+msgstr "Versata (F24)"
 
 #. module: dub_withholding_extension
 #: model:ir.model.fields.selection,name:dub_withholding_extension.selection__withholding_history_move__state__paid
@@ -538,10 +557,16 @@ msgid "Paid (OCA data)"
 msgstr "Versata (dato OCA)"
 
 #. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__amount_paid_f24
+msgid "Paid via F24 (amount)"
+msgstr "Versato con F24"
+
+#. module: dub_withholding_extension
 #: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_invoice_report__partner_id
 #: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__partner_id
 #: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_move__partner_id
 #: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_statement__partner_id
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_cu_summary_search
 #: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_due_line_search
 #: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_invoice_report_search
 msgid "Partner"
@@ -555,6 +580,7 @@ msgstr "Conti da versare"
 #. module: dub_withholding_extension
 #: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__payment_date
 #: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment__date_payment
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_cu_summary_search
 #: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_due_line_search
 msgid "Payment Date"
 msgstr "Data pagamento"
@@ -576,6 +602,7 @@ msgid "Payment Type"
 msgstr "Tipo versamento"
 
 #. module: dub_withholding_extension
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_cu_summary_search
 #: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_due_line_search
 msgid "Payment Year"
 msgstr "Anno di pagamento"
@@ -584,7 +611,7 @@ msgstr "Anno di pagamento"
 #: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_statement__move_ids
 #: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_history_statement_form
 msgid "Payments"
-msgstr "Versamenti"
+msgstr "Pagamenti"
 
 #. module: dub_withholding_extension
 #: model:ir.ui.menu,name:dub_withholding_extension.menu_withholding_payment
@@ -618,10 +645,16 @@ msgstr "Aliquota"
 #: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_invoice_report__reason
 #: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__reason
 #: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_statement__reason
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_cu_summary_search
 #: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_due_line_search
 #: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_invoice_report_search
 msgid "Reason"
 msgstr "Causale"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__reconciled
+msgid "Reconciled"
+msgstr "Riconciliata"
 
 #. module: dub_withholding_extension
 #: model:ir.actions.act_window,name:dub_withholding_extension.action_withholding_invoice_register
@@ -658,6 +691,13 @@ msgstr "Impostare prima il tipo di versamento."
 #: code:addons/dub_withholding_extension/models/withholding_payment.py:0
 msgid "Some lines are on accounts not configured on the payment type: %s"
 msgstr "Alcune righe sono su conti non configurati nel tipo di versamento: %s"
+
+#. module: dub_withholding_extension
+#. odoo-python
+#: code:addons/dub_withholding_extension/models/withholding_payment.py:0
+msgid ""
+"Some lines carry withholding taxes not configured on the payment type: %s"
+msgstr "Alcune righe hanno ritenute non configurate nel tipo di versamento: %s"
 
 #. module: dub_withholding_extension
 #. odoo-python
@@ -734,6 +774,13 @@ msgid ""
 msgstr "Il codice di identificazione fiscale. I valori vengono validati in base al formato del paese. Si può usare '/' per indicare che il partner non è soggetto a imposta."
 
 #. module: dub_withholding_extension
+#: model:ir.model.fields,help:dub_withholding_extension.field_l10n_it_withholding_tax_report__reconciled
+msgid ""
+"The withholding line is reconciled (F24 or any other entry); for the OCA "
+"history, the payment is paid."
+msgstr "La riga della ritenuta è riconciliata (F24 o un'altra registrazione); per lo storico OCA, la ritenuta risulta versata."
+
+#. module: dub_withholding_extension
 #: model:ir.model.fields.selection,name:dub_withholding_extension.selection__withholding_history_move__state__due
 msgid "To Pay"
 msgstr "Da versare"
@@ -746,6 +793,14 @@ msgstr "Da versare"
 #: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_invoice_report_list
 msgid "Total"
 msgstr "Totale"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,help:dub_withholding_extension.field_withholding_history_statement__oca_wt_types
+msgid ""
+"Type of the OCA withholding tax (ritenuta, enasarco, inps, enpam, other). "
+"Empty or 'ritenuta' means an IRPEF withholding, the only kind in the CU "
+"summary."
+msgstr "Tipo della ritenuta OCA (ritenuta, enasarco, inps, enpam, other). Vuoto o 'ritenuta' indica una ritenuta IRPEF, l'unica nel riepilogo CU."
 
 #. module: dub_withholding_extension
 #: model:ir.model.fields,help:dub_withholding_extension.field_withholding_payment__move_line_ids
@@ -773,14 +828,14 @@ msgid "With Residual"
 msgstr "Con residuo"
 
 #. module: dub_withholding_extension
-#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_invoice_report__amount_paid
-msgid "Withheld Paid"
-msgstr "Ritenuta versata"
-
-#. module: dub_withholding_extension
 #: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_invoice_report__amount_residual
 msgid "Withheld Residual"
 msgstr "Ritenuta residua"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_invoice_report__amount_paid
+msgid "Withheld on Payments"
+msgstr "Ritenuta operata"
 
 #. module: dub_withholding_extension
 #: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_invoice_report__amount
@@ -905,10 +960,10 @@ msgstr "Versamento ritenute - %s"
 #: model_terms:ir.actions.act_window,help:dub_withholding_extension.action_withholding_due_lines
 msgid ""
 "Withholding taxes on paid vendor bills appear here until an F24\n"
-"               payment settles them. Select them and use\n"
+"               payment or another entry settles them. Select them and use\n"
 "               <b>Actions &gt; Create Withholding Payment</b> to generate the\n"
 "               F24 entry and reconcile them."
-msgstr "Le ritenute sulle fatture fornitore pagate compaiono qui finché un\n               versamento F24 non le salda. Selezionarle e usare\n               <b>Azioni &gt; Crea versamento ritenute</b> per generare la\n               registrazione F24 e riconciliarle."
+msgstr "Le ritenute sulle fatture fornitore pagate compaiono qui finché un\n               versamento F24 o un'altra registrazione non le salda. Selezionarle e usare\n               <b>Azioni &gt; Crea versamento ritenute</b> per generare la\n               registrazione F24 e riconciliarle."
 
 #. module: dub_withholding_extension
 #: model:ir.actions.act_window,name:dub_withholding_extension.action_withholding_due_lines

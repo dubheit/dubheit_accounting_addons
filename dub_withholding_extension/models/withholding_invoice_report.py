@@ -34,7 +34,7 @@ class WithholdingInvoiceReport(models.Model):
     gross_amount = fields.Monetary(readonly=True)
     taxable_amount = fields.Monetary(readonly=True)
     amount = fields.Monetary(string="Withholding", readonly=True)
-    amount_paid = fields.Monetary(string="Withheld Paid", readonly=True)
+    amount_paid = fields.Monetary(string="Withheld on Payments", readonly=True)
     amount_residual = fields.Monetary(string="Withheld Residual", readonly=True)
     company_id = fields.Many2one("res.company", readonly=True)
     currency_id = fields.Many2one("res.currency", readonly=True)
