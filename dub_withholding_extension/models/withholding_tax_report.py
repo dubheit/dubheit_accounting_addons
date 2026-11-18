@@ -112,6 +112,7 @@ class WithholdingTaxReport(models.Model):
                 JOIN withholding_payment wp
                     ON wp.move_id = pl.move_id AND wp.state = 'confirmed'
                 WHERE aml.id IN (apr.debit_move_id, apr.credit_move_id)
+                ORDER BY wp.date DESC, wp.id DESC
                 LIMIT 1
             ) f24 ON TRUE
             WHERE caba.tax_cash_basis_origin_move_id IS NOT NULL

@@ -1,10 +1,11 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 
 class WithholdingPaymentType(models.Model):
     _name = "withholding.payment.type"
+    _inherit = ["mail.thread"]
     _description = "Withholding Payment Type"
 
     name = fields.Char(required=True, translate=True)
@@ -55,6 +56,27 @@ class WithholdingPaymentType(models.Model):
         "(e.g. Erario c/versamenti or the bank account).",
     )
 
+    l10n_it_wt_config_warning = fields.Char(
+        string="Configuration Warning",
+        compute="_compute_l10n_it_wt_config_warning",
+    )
+
+    @api.depends("tax_ids.tax_exigibility", "company_id.tax_exigibility")
+    def _compute_l10n_it_wt_config_warning(self):
+        for rec in self:
+            warning = False
+            if not rec.company_id.tax_exigibility:
+                warning = _(
+                    "Cash basis taxes are not enabled on the company: "
+                    "withholding taxes are not recorded on payment."
+                )
+            elif any(tax.tax_exigibility != "on_payment" for tax in rec.tax_ids):
+                warning = _(
+                    "Some taxes are not due on payment: the withholding is "
+                    "not supported unless the taxes are cash basis."
+                )
+            rec.l10n_it_wt_config_warning = warning
+
     @api.depends("tax_ids")
     def _compute_account_ids(self):
         for rec in self:
@@ -63,6 +85,30 @@ class WithholdingPaymentType(models.Model):
                 accounts |= tax.invoice_repartition_line_ids.filtered(
                     lambda line: line.repartition_type == "tax"
                     and line.account_id
-                    and line.account_id.reconcile
                 ).account_id
             rec.account_ids = [(6, 0, accounts.ids)]
+
+    def _l10n_it_wt_make_accounts_reconcilable(self):
+        """Make the payable accounts reconcilable, so the F24 can be matched
+        with the amounts due (the core template account is not reconcilable)."""
+        for rec in self:
+            for account in rec.account_ids.filtered(lambda acc: not acc.reconcile):
+                account.reconcile = True
+                rec.message_post(
+                    body=_(
+                        "Account %s made reconcilable to pay the withholding.",
+                        account.display_name,
+                    )
+                )
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+        records._l10n_it_wt_make_accounts_reconcilable()
+        return records
+
+    def write(self, vals):
+        res = super().write(vals)
+        if "tax_ids" in vals or "account_ids" in vals:
+            self._l10n_it_wt_make_accounts_reconcilable()
+        return res

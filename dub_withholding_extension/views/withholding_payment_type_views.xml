@@ -20,6 +20,10 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <div class="alert alert-warning" role="alert"
+                         invisible="not l10n_it_wt_config_warning">
+                        <field name="l10n_it_wt_config_warning" />
+                    </div>
                     <group>
                         <group>
                             <field name="name" />
@@ -37,6 +41,7 @@
                     <field name="account_ids" widget="many2many_tags"
                            help="Derived from the taxes; editable if needed." />
                 </sheet>
+                <chatter />
             </form>
         </field>
     </record>

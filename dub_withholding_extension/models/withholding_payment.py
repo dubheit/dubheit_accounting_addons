@@ -84,6 +84,9 @@ class WithholdingPayment(models.Model):
                 ("company_id", "=", rec.company_id.id),
                 ("balance", "!=", 0),
             ]
+            start_date = rec.company_id.l10n_it_wt_start_date
+            if start_date:
+                domain.append(("date", ">=", start_date))
             if rec.date_start:
                 domain.append(("date", ">=", rec.date_start))
             if rec.date_stop:
