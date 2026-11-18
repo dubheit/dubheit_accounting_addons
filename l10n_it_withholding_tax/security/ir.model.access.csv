@@ -1,7 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_wt_payment_type_user,withholding.payment.type.user,model_withholding_payment_type,account.group_account_user,1,0,0,0
-access_wt_payment_type_manager,withholding.payment.type.manager,model_withholding_payment_type,account.group_account_manager,1,1,1,1
-access_wt_payment_user,withholding.payment.user,model_withholding_payment,account.group_account_user,1,1,1,0
-access_wt_payment_manager,withholding.payment.manager,model_withholding_payment,account.group_account_manager,1,1,1,1
-access_wt_payment_create_user,withholding.payment.create.user,model_withholding_payment_create,account.group_account_user,1,1,1,1
-access_wt_tax_report_user,l10n_it.withholding.tax.report.user,model_l10n_it_withholding_tax_report,account.group_account_user,1,0,0,0
