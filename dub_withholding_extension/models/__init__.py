@@ -3,5 +3,7 @@ from . import withholding_payment
 from . import account_account
 from . import account_tax
 from . import account_move
+from . import res_company
+from . import res_config_settings
 from . import withholding_history
 from . import withholding_tax_report

@@ -15,8 +15,10 @@ class WithholdingPaymentCreate(models.TransientModel):
         if model == "account.move.line":
             return [(6, 0, active_ids)]
         if model == "l10n_it.withholding.tax.report":
-            report = self.env[model].browse(active_ids)
-            return [(6, 0, report.mapped("move_line_id").ids)]
+            rows = self.env[model].browse(active_ids).filtered(
+                lambda row: row.source == "core" and row.wt_kind == "operated"
+            )
+            return [(6, 0, rows.move_line_id.ids)]
         return False
 
     type_id = fields.Many2one(

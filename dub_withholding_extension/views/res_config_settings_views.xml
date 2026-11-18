@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.dub.withholding</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//setting[@id='tax_exigibility']" position="after">
+                <setting id="l10n_it_wt_start_date" company_dependent="1"
+                         invisible="country_code != 'IT'"
+                         help="Core withholding entries dated before this day stay out of the withholding register and of the F24 payments.">
+                    <field name="l10n_it_wt_start_date" />
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>

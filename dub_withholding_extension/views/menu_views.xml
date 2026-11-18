@@ -15,6 +15,13 @@
         sequence="5"
     />
     <menuitem
+        id="menu_withholding_register"
+        name="Register by Payment"
+        parent="menu_withholding_root"
+        action="action_withholding_register"
+        sequence="10"
+    />
+    <menuitem
         id="menu_withholding_payment"
         name="Payments"
         parent="menu_withholding_root"
