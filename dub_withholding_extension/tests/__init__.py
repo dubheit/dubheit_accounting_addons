@@ -4,3 +4,4 @@ from . import test_history
 from . import test_payment_register
 from . import test_invoice_register
 from . import test_f24
+from . import test_history_import

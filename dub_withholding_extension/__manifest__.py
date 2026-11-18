@@ -27,5 +27,6 @@
         "views/withholding_history_views.xml",
         "views/menu_views.xml",
     ],
+    "post_init_hook": "post_init_hook",
     "installable": True,
 }

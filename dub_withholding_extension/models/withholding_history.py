@@ -1,8 +1,33 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import logging
+
 from odoo import api, fields, models
+from odoo.tools import SQL
+from odoo.tools.float_utils import float_compare
+from odoo.tools.sql import table_exists
+
+_logger = logging.getLogger(__name__)
 
 WT_KIND_SELECTION = [("operated", "Operated"), ("suffered", "Suffered")]
+
+
+def oca_gross_taxable(base, tax, rate, coeff):
+    """Return (gross, taxable) from an OCA statement.
+
+    OCA stores a single ``base``: usually the taxable amount, sometimes the
+    gross one. The row is decided by comparing the withholding ``tax`` with
+    the rate (cent precision).
+    """
+    coeff = coeff or 1.0
+    if not rate:
+        return base, base
+    if float_compare(round(base * rate / 100, 2), tax, precision_digits=2) == 0:
+        return round(base / coeff, 2), base
+    if float_compare(round(base * coeff * rate / 100, 2), tax, precision_digits=2) == 0:
+        return base, round(base * coeff, 2)
+    taxable = round(tax * 100 / rate, 2)
+    return round(taxable / coeff, 2), taxable
 
 
 class WithholdingHistoryStatement(models.Model):
@@ -34,13 +59,140 @@ class WithholdingHistoryStatement(models.Model):
     )
     amount_paid = fields.Monetary(compute="_compute_amount_paid")
 
-
     def init(self):
         self.env.cr.execute(
             "CREATE UNIQUE INDEX IF NOT EXISTS "
             "withholding_history_statement_oca_id_uniq "
             "ON withholding_history_statement (oca_id) WHERE oca_id > 0"
         )
+
+    @api.model
+    def _import_from_oca(self):
+        """Import OCA statements and payments not imported yet.
+
+        Idempotent on the positive ``oca_id``; OCA tables are left untouched.
+        :return: dict with the number of imported ``statements`` and ``moves``
+        """
+        cr = self.env.cr
+        result = {"statements": 0, "moves": 0}
+        if not table_exists(cr, "withholding_tax_statement"):
+            return result
+        self.env.flush_all()
+        has_reason = table_exists(cr, "payment_reason")
+        reason_join = (
+            SQL("LEFT JOIN payment_reason pr ON pr.id = wt.payment_reason_id")
+            if has_reason
+            else SQL("")
+        )
+        reason_col = SQL("pr.code") if has_reason else SQL("NULL")
+        cr.execute(
+            SQL(
+                """
+                SELECT s.id, am.id AS invoice_id,
+                       COALESCE(s.partner_id, am.partner_id) AS partner_id,
+                       COALESCE(s.date, am.date) AS date,
+                       s.base, s.tax, s.wt_type, wt.code, wt.name,
+                       %(reason_col)s AS reason,
+                       COALESCE(am.company_id, wt.company_id) AS company_id,
+                       rt.tax AS rate, rt.base AS coeff
+                  FROM withholding_tax_statement s
+                  LEFT JOIN account_move am ON am.id = s.move_id
+                  LEFT JOIN withholding_tax wt ON wt.id = s.withholding_tax_id
+                  %(reason_join)s
+                  LEFT JOIN LATERAL (
+                        SELECT r.tax, r.base
+                          FROM withholding_tax_rate r
+                         WHERE r.withholding_tax_id = s.withholding_tax_id
+                           AND (r.date_start IS NULL OR r.date_start <= s.date)
+                           AND (r.date_stop IS NULL OR r.date_stop >= s.date)
+                         ORDER BY r.date_start DESC NULLS LAST, r.id DESC
+                         LIMIT 1) rt ON TRUE
+                 WHERE s.id NOT IN (
+                        SELECT oca_id FROM withholding_history_statement
+                         WHERE oca_id > 0)
+                 ORDER BY s.id
+                """,
+                reason_col=reason_col,
+                reason_join=reason_join,
+            )
+        )
+        rows = cr.dictfetchall()
+        vals_list = []
+        skipped = 0
+        for row in rows:
+            if not row["partner_id"] or not row["date"]:
+                skipped += 1
+                continue
+            rate = row["rate"] or 0.0
+            coeff = row["coeff"] or 1.0
+            gross, taxable = oca_gross_taxable(
+                row["base"] or 0.0, row["tax"] or 0.0, rate, coeff
+            )
+            vals_list.append(
+                {
+                    "oca_id": row["id"],
+                    "company_id": row["company_id"] or self.env.company.id,
+                    "invoice_id": row["invoice_id"] or False,
+                    "partner_id": row["partner_id"],
+                    "date": row["date"],
+                    "wt_kind": "suffered" if row["wt_type"] == "out" else "operated",
+                    "withholding_code": row["code"],
+                    "withholding_name": row["name"],
+                    "reason": row["reason"],
+                    "rate": rate,
+                    "base_coeff": coeff,
+                    "gross_amount": gross,
+                    "taxable_amount": taxable,
+                    "amount": row["tax"] or 0.0,
+                }
+            )
+        statements = self.create(vals_list)
+        by_oca_id = {st.oca_id: st for st in statements}
+        result["statements"] = len(statements)
+
+        if by_oca_id:
+            cr.execute(
+                """
+                SELECT m.id, m.statement_id,
+                       COALESCE(m.partner_id, s.partner_id, am.partner_id) AS partner_id,
+                       m.date, m.amount, m.state
+                  FROM withholding_tax_move m
+                  JOIN withholding_tax_statement s ON s.id = m.statement_id
+                  LEFT JOIN account_move am ON am.id = s.move_id
+                 WHERE m.statement_id IN %s
+                   AND m.id NOT IN (
+                        SELECT oca_id FROM withholding_history_move
+                         WHERE oca_id > 0)
+                 ORDER BY m.id
+                """,
+                (tuple(by_oca_id),),
+            )
+            move_vals = []
+            for row in cr.dictfetchall():
+                if not row["partner_id"] or not row["date"]:
+                    skipped += 1
+                    continue
+                move_vals.append(
+                    {
+                        "oca_id": row["id"],
+                        "statement_id": by_oca_id[row["statement_id"]].id,
+                        "partner_id": row["partner_id"],
+                        "date": row["date"],
+                        "amount": row["amount"] or 0.0,
+                        "state": "paid" if row["state"] == "paid" else "due",
+                    }
+                )
+            result["moves"] = len(self.env["withholding.history.move"].create(move_vals))
+
+        _logger.info(
+            "OCA withholding history: read %s statements, imported %s statements "
+            "and %s moves, skipped %s (missing partner or date)",
+            len(rows),
+            result["statements"],
+            result["moves"],
+            skipped,
+        )
+        return result
 
     @api.depends("move_ids.amount")
     def _compute_amount_paid(self):
