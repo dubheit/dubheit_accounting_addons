@@ -3,6 +3,7 @@
 from datetime import date
 
 from odoo import Command
+from odoo.exceptions import UserError
 
 from .common import WithholdingCommon
 
@@ -21,6 +22,54 @@ class TestF24(WithholdingCommon):
                     "default_journal_bank"
                 ].default_account_id.id,
             }
+        )
+        cls.wt_pg = (
+            cls.env["account.chart.template"].with_company(cls.company).ref("20awc")
+        )
+
+    def _f24(self, payment_type=None, **vals):
+        payment_type = payment_type or self.f24_type
+        return self.env["withholding.payment"].create(
+            {"type_id": payment_type.id, "date": "2026-01-16", **vals}
+        )
+
+    def _type_pg(self):
+        """Second type on the same core account (20awc, legal persons)."""
+        return self.f24_type.copy(
+            {"name": "1040 PG", "tax_ids": [Command.set(self.wt_pg.ids)]}
+        )
+
+    def _paid_bill(self, taxes):
+        bill = self._wt_invoice(
+            "in_invoice", 1000.0, self.vat_purchase + taxes, "2025-12-01"
+        )
+        self._wt_pay(bill, bill.amount_total, "2025-12-20")
+        return bill
+
+    def _manual_wt_line(self, amount, entry_date):
+        """Untaxed line on the core payable account (e.g. a manual closing)."""
+        move = self.env["account.move"].create(
+            {
+                "move_type": "entry",
+                "date": entry_date,
+                "line_ids": [
+                    Command.create(
+                        {"account_id": self.wt_payable.id, "credit": amount}
+                    ),
+                    Command.create(
+                        {
+                            "account_id": self.company_data[
+                                "default_account_expense"
+                            ].id,
+                            "debit": amount,
+                        }
+                    ),
+                ],
+            }
+        )
+        move.action_post()
+        return move.line_ids.filtered(
+            lambda line: line.account_id == self.wt_payable
         )
 
     def test_type_makes_core_account_reconcilable(self):
@@ -132,3 +181,60 @@ class TestF24(WithholdingCommon):
             .create({"type_id": self.f24_type.id})
         )
         self.assertEqual(wizard.line_ids, operated.move_line_id)
+
+    def test_types_sharing_account_load_own_lines(self):
+        type_pg = self._type_pg()
+        self.assertEqual(type_pg.account_ids, self.f24_type.account_ids)
+        bill_pf = self._paid_bill(self.wt_purchase)
+        bill_pg = self._paid_bill(self.wt_pg)
+        line_pf = self._register_rows(bill_pf).move_line_id
+        line_pg = self._register_rows(bill_pg).move_line_id
+        self.assertEqual(line_pf.account_id, line_pg.account_id)
+        f24_pf = self._f24()
+        f24_pf.action_load_lines()
+        self.assertEqual(f24_pf.move_line_ids, line_pf)
+        f24_pg = self._f24(type_pg)
+        f24_pg.action_load_lines()
+        self.assertEqual(f24_pg.move_line_ids, line_pg)
+        f24_pf.action_confirm()
+        f24_pg.action_load_lines()
+        self.assertEqual(f24_pg.move_line_ids, line_pg)
+        self.assertEqual(f24_pg.amount, 200.0)
+        f24_pf_again = self._f24()
+        f24_pf_again.action_load_lines()
+        self.assertFalse(f24_pf_again.move_line_ids)
+
+    def test_untaxed_line_only_on_unshared_account(self):
+        manual = self._manual_wt_line(50.0, "2025-12-22")
+        f24 = self._f24()
+        f24.action_load_lines()
+        self.assertEqual(f24.move_line_ids, manual)
+        self._type_pg()
+        f24.action_load_lines()
+        self.assertFalse(f24.move_line_ids)
+
+    def test_confirm_rejects_other_tax(self):
+        bill_pg = self._paid_bill(self.wt_pg)
+        f24 = self._f24(
+            move_line_ids=[
+                Command.set(self._register_rows(bill_pg).move_line_id.ids)
+            ]
+        )
+        with self.assertRaises(UserError):
+            f24.action_confirm()
+
+    def test_period_on_payment_date(self):
+        # the cash basis entry goes after the lock date, the payment is in
+        # December: the F24 of December pays it
+        bill = self._wt_invoice(
+            "in_invoice", 1000.0, self.vat_purchase + self.wt_purchase, "2026-01-20"
+        )
+        self._wt_pay_after_lock(bill, "2025-12-28", "2025-12-31")
+        line = self._register_rows(bill).move_line_id
+        self.assertGreater(line.date, date(2025, 12, 31))
+        december = self._f24(date_start="2025-12-01", date_stop="2025-12-31")
+        december.action_load_lines()
+        self.assertEqual(december.move_line_ids, line)
+        january = self._f24(date_start="2026-01-01", date_stop="2026-01-31")
+        january.action_load_lines()
+        self.assertFalse(january.move_line_ids)

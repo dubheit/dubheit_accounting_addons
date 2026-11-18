@@ -67,6 +67,33 @@ class TestPaymentRegister(WithholdingCommon):
         payment.action_draft()
         self.assertFalse(self._register_rows(bill))
 
+    def test_payment_date_is_the_payment(self):
+        # bill registered after the payment
+        bill = self._wt_invoice(
+            "in_invoice", 1000.0, self.vat_purchase + self.wt_purchase, "2026-01-20"
+        )
+        self._wt_pay(bill, bill.amount_total, "2025-12-28")
+        self.assertEqual(self._register_rows(bill).payment_date, date(2025, 12, 28))
+
+    def test_payment_date_before_lock_date(self):
+        # payment matched after its period was locked: the cash basis entry
+        # moves after the lock date, the register keeps the payment date
+        bill = self._wt_invoice(
+            "in_invoice", 1000.0, self.vat_purchase + self.wt_purchase, "2026-01-20"
+        )
+        self._wt_pay_after_lock(bill, "2025-12-28", "2025-12-31")
+        row = self._register_rows(bill)
+        self.assertGreater(row.move_line_id.move_id.date, date(2025, 12, 31))
+        self.assertEqual(row.payment_date, date(2025, 12, 28))
+
+    def test_start_date_on_payment_date(self):
+        bill = self._wt_invoice(
+            "in_invoice", 1000.0, self.vat_purchase + self.wt_purchase, "2026-01-20"
+        )
+        self._wt_pay_after_lock(bill, "2025-12-28", "2025-12-31")
+        self.company.l10n_it_wt_start_date = "2026-01-01"
+        self.assertFalse(self._register_rows(bill))
+
     def test_sale_withholding_is_suffered(self):
         inv = self._wt_invoice(
             "out_invoice", 1000.0, self.vat_sale + self.wt_sale, "2025-12-01"

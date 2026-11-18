@@ -1,6 +1,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import Command, _, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -73,27 +73,68 @@ class WithholdingPayment(models.Model):
         return super().create(vals_list)
 
     def action_load_lines(self):
-        """Fill the lines with the due (unreconciled) lines of the type."""
+        """Fill the lines with the due lines of the type.
+
+        Withholding lines come from the register, by tax: the core template
+        books all the IRPEF withholdings on one account. Lines without a tax
+        on the payable accounts (e.g. manual closings) are added only for the
+        accounts no other active type of the company uses.
+        """
         for rec in self:
             if not rec.type_id:
                 raise UserError(_("Set the payment type first."))
-            domain = [
-                ("account_id", "in", rec.type_id.account_ids.ids),
-                ("reconciled", "=", False),
-                ("parent_state", "=", "posted"),
-                ("company_id", "=", rec.company_id.id),
-                ("balance", "!=", 0),
-            ]
-            start_date = rec.company_id.l10n_it_wt_start_date
-            if start_date:
-                domain.append(("date", ">=", start_date))
-            if rec.date_start:
-                domain.append(("date", ">=", rec.date_start))
-            if rec.date_stop:
-                domain.append(("date", "<=", rec.date_stop))
-            lines = self.env["account.move.line"].search(domain)
-            rec.move_line_ids = [(6, 0, lines.ids)]
+            lines = rec._get_due_withholding_lines() | rec._get_due_untaxed_lines()
+            rec.move_line_ids = [Command.set(lines.ids)]
         return True
+
+    def _get_due_withholding_lines(self):
+        self.ensure_one()
+        domain = [
+            ("source", "=", "core"),
+            ("wt_kind", "=", "operated"),
+            ("reconciled", "=", False),
+            ("tax_id", "in", self.type_id.tax_ids.ids),
+            ("company_id", "=", self.company_id.id),
+        ]
+        if self.date_start:
+            domain.append(("payment_date", ">=", self.date_start))
+        if self.date_stop:
+            domain.append(("payment_date", "<=", self.date_stop))
+        self.env.flush_all()
+        rows = self.env["l10n_it.withholding.tax.report"].search(domain)
+        return rows.move_line_id
+
+    def _get_due_untaxed_lines(self):
+        self.ensure_one()
+        shared_accounts = (
+            self.env["withholding.payment.type"]
+            .search(
+                [
+                    ("company_id", "=", self.company_id.id),
+                    ("id", "!=", self.type_id.id),
+                ]
+            )
+            .account_ids
+        )
+        accounts = self.type_id.account_ids - shared_accounts
+        if not accounts:
+            return self.env["account.move.line"]
+        domain = [
+            ("account_id", "in", accounts.ids),
+            ("tax_line_id", "=", False),
+            ("reconciled", "=", False),
+            ("parent_state", "=", "posted"),
+            ("company_id", "=", self.company_id.id),
+            ("balance", "!=", 0),
+        ]
+        start_date = self.company_id.l10n_it_wt_start_date
+        if start_date:
+            domain.append(("date", ">=", start_date))
+        if self.date_start:
+            domain.append(("date", ">=", self.date_start))
+        if self.date_stop:
+            domain.append(("date", "<=", self.date_stop))
+        return self.env["account.move.line"].search(domain)
 
     def action_confirm(self):
         for rec in self:
@@ -102,6 +143,8 @@ class WithholdingPayment(models.Model):
             rec._reconcile(move)
             rec.move_id = move.id
             rec.state = "confirmed"
+        # the register is a SQL view: drop the rows read before the payment
+        self.env["l10n_it.withholding.tax.report"].invalidate_model()
         return True
 
     def _check_confirmable(self):
@@ -123,6 +166,18 @@ class WithholdingPayment(models.Model):
                     "Some lines are on accounts not configured on the payment "
                     "type: %s",
                     ", ".join(wrong.account_id.mapped("code")),
+                )
+            )
+        wrong_tax = self.move_line_ids.filtered(
+            lambda line: line.tax_line_id
+            and line.tax_line_id not in self.type_id.tax_ids
+        )
+        if wrong_tax:
+            raise UserError(
+                _(
+                    "Some lines carry withholding taxes not configured on the "
+                    "payment type: %s",
+                    ", ".join(wrong_tax.tax_line_id.mapped("name")),
                 )
             )
 

@@ -36,8 +36,37 @@ class WithholdingCommon(AccountTestInvoicingCommon):
     def _wt_pay(cls, move, amount, date):
         return cls._register_payment(move, amount=amount, payment_date=date)
 
+    @classmethod
+    def _wt_pay_after_lock(cls, move, payment_date, lock_date):
+        """Pay ``move`` on ``payment_date``, lock the period, then match them.
+
+        The cash basis entry cannot go in the locked period, so it is dated
+        after ``lock_date`` while the payment stays before it.
+        """
+        payment = cls.env["account.payment"].create(
+            {
+                "payment_type": "outbound",
+                "partner_type": "supplier",
+                "partner_id": move.partner_id.id,
+                "amount": move.amount_total,
+                "date": payment_date,
+                "journal_id": cls.company_data["default_journal_bank"].id,
+            }
+        )
+        payment.action_post()
+        cls.company.fiscalyear_lock_date = lock_date
+        account = move.line_ids.filtered(
+            lambda line: line.display_type == "payment_term"
+        ).account_id
+        (move.line_ids | payment.move_id.line_ids).filtered(
+            lambda line: line.account_id == account
+        ).reconcile()
+        return payment
+
     def _register_rows(self, invoice):
+        # SQL view: flush the changes and drop the rows already in cache
         self.env.flush_all()
+        self.env.invalidate_all()
         return self.env["l10n_it.withholding.tax.report"].search(
             [("invoice_id", "=", invoice.id)], order="payment_date, id"
         )

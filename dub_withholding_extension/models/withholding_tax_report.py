@@ -47,6 +47,11 @@ class WithholdingTaxReport(models.Model):
         "withholding.payment", string="F24 Payment", readonly=True
     )
     f24_date = fields.Date(string="F24 Date", readonly=True)
+    reconciled = fields.Boolean(
+        readonly=True,
+        help="The withholding line is reconciled (F24 or any other entry); for "
+        "the OCA history, the payment is paid.",
+    )
     company_id = fields.Many2one("res.company", readonly=True)
     currency_id = fields.Many2one("res.currency", readonly=True)
 
@@ -64,8 +69,11 @@ class WithholdingTaxReport(models.Model):
     def _query_core(self):
         """Withholding lines of the posted, not reversed cash basis entries.
 
-        The gross amount is the share of the invoice base paid by this entry:
-        the cash basis line copies the whole invoice base in tax_base_amount.
+        The payment date is the date of the payment line matched with the
+        invoice (the cash basis entry can be dated later, e.g. after a lock
+        date). The gross amount is the share of the invoice base paid by this
+        entry: the cash basis line copies the whole invoice base in
+        tax_base_amount.
         """
         return SQL(
             """
@@ -75,7 +83,7 @@ class WithholdingTaxReport(models.Model):
                    aml.id AS move_line_id, NULL::int AS history_move_id,
                    caba.tax_cash_basis_origin_move_id AS invoice_id,
                    aml.partner_id,
-                   caba.date AS payment_date, aml.tax_line_id AS tax_id,
+                   pd.payment_date, aml.tax_line_id AS tax_id,
                    tax.l10n_it_withholding_type AS withholding_code,
                    tax.l10n_it_withholding_reason AS reason,
                    amt.amount,
@@ -88,11 +96,24 @@ class WithholdingTaxReport(models.Model):
                    (f24.payment_id IS NOT NULL) AS paid_f24,
                    f24.payment_id AS withholding_payment_id,
                    f24.date AS f24_date,
+                   aml.reconciled,
                    aml.company_id, aml.company_currency_id AS currency_id
             FROM account_move_line aml
             JOIN account_move caba ON caba.id = aml.move_id
             JOIN account_tax tax ON tax.id = aml.tax_line_id
             JOIN res_company comp ON comp.id = aml.company_id
+            LEFT JOIN LATERAL (
+                SELECT pl.date
+                FROM account_partial_reconcile apr
+                JOIN account_move_line pl
+                    ON pl.id IN (apr.debit_move_id, apr.credit_move_id)
+                WHERE apr.id = caba.tax_cash_basis_rec_id
+                  AND pl.move_id <> caba.tax_cash_basis_origin_move_id
+                LIMIT 1
+            ) pay ON TRUE
+            CROSS JOIN LATERAL (
+                SELECT COALESCE(pay.date, caba.date) AS payment_date
+            ) pd
             CROSS JOIN LATERAL (
                 SELECT CASE WHEN tax.type_tax_use = 'sale'
                             THEN aml.balance ELSE -aml.balance END AS amount
@@ -124,7 +145,7 @@ class WithholdingTaxReport(models.Model):
               )
               AND tax.l10n_it_withholding_type IS NOT NULL
               AND (comp.l10n_it_wt_start_date IS NULL
-                   OR caba.date >= comp.l10n_it_wt_start_date)
+                   OR pd.payment_date >= comp.l10n_it_wt_start_date)
             """
         )
 
@@ -145,6 +166,7 @@ class WithholdingTaxReport(models.Model):
                    COALESCE(hm.state = 'paid', FALSE) AS paid_f24,
                    NULL::int AS withholding_payment_id,
                    NULL::date AS f24_date,
+                   COALESCE(hm.state = 'paid', FALSE) AS reconciled,
                    hm.company_id, comp.currency_id
             FROM withholding_history_move hm
             JOIN withholding_history_statement hs ON hs.id = hm.statement_id
