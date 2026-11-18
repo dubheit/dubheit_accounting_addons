@@ -4,8 +4,7 @@ import logging
 
 from odoo import api, fields, models
 from odoo.tools import SQL
-from odoo.tools.float_utils import float_compare
-from odoo.tools.sql import table_exists
+from odoo.tools.sql import column_exists, table_exists
 
 _logger = logging.getLogger(__name__)
 
@@ -22,10 +21,13 @@ def oca_gross_taxable(base, tax, rate, coeff):
     coeff = coeff or 1.0
     if not rate:
         return base, base
-    if float_compare(round(base * rate / 100, 2), tax, precision_digits=2) == 0:
+    # OCA computed round(base * (rate / 100), 2): compare with half-cent tolerance
+    tolerance = 0.005 + 1e-9
+    if abs(base * rate / 100 - tax) <= tolerance:
         return round(base / coeff, 2), base
-    if float_compare(round(base * coeff * rate / 100, 2), tax, precision_digits=2) == 0:
-        return base, round(base * coeff, 2)
+    taxable = round(base * coeff, 2)
+    if abs(taxable * rate / 100 - tax) <= tolerance:
+        return base, taxable
     taxable = round(tax * 100 / rate, 2)
     return round(taxable / coeff, 2), taxable
 
@@ -78,13 +80,22 @@ class WithholdingHistoryStatement(models.Model):
         if not table_exists(cr, "withholding_tax_statement"):
             return result
         self.env.flush_all()
-        has_reason = table_exists(cr, "payment_reason")
-        reason_join = (
-            SQL("LEFT JOIN payment_reason pr ON pr.id = wt.payment_reason_id")
-            if has_reason
-            else SQL("")
-        )
-        reason_col = SQL("pr.code") if has_reason else SQL("NULL")
+        reason_join = SQL("")
+        reason_col = SQL("NULL")
+        for table, column in (
+            ("payment_reason", "payment_reason_id"),
+            ("causale_pagamento", "causale_pagamento_id"),
+        ):
+            if table_exists(cr, table) and column_exists(
+                cr, "withholding_tax", column
+            ):
+                reason_join = SQL(
+                    "LEFT JOIN %s pr ON pr.id = wt.%s",
+                    SQL.identifier(table),
+                    SQL.identifier(column),
+                )
+                reason_col = SQL("pr.code")
+                break
         cr.execute(
             SQL(
                 """
@@ -103,9 +114,13 @@ class WithholdingHistoryStatement(models.Model):
                         SELECT r.tax, r.base
                           FROM withholding_tax_rate r
                          WHERE r.withholding_tax_id = s.withholding_tax_id
-                           AND (r.date_start IS NULL OR r.date_start <= s.date)
-                           AND (r.date_stop IS NULL OR r.date_stop >= s.date)
-                         ORDER BY r.date_start DESC NULLS LAST, r.id DESC
+                         ORDER BY (
+                                (r.date_start IS NULL
+                                 OR r.date_start <= COALESCE(s.date, am.date))
+                                AND (r.date_stop IS NULL
+                                 OR r.date_stop >= COALESCE(s.date, am.date))
+                               ) DESC,
+                               r.date_start DESC NULLS LAST, r.id DESC
                          LIMIT 1) rt ON TRUE
                  WHERE s.id NOT IN (
                         SELECT oca_id FROM withholding_history_statement

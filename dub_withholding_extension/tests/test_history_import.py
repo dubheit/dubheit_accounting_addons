@@ -24,6 +24,10 @@ class TestHistoryImport(WithholdingCommon):
         self.assertEqual(oca_gross_taxable(100.0, 30.0, 20.0, 1.0), (150.0, 150.0))  # inconsistent: from withholding
         self.assertEqual(oca_gross_taxable(0.0, 0.0, 4.0, 1.0), (0.0, 0.0))
         self.assertEqual(oca_gross_taxable(500.0, 0.0, 0.0, 1.0), (500.0, 500.0))  # rate 0
+        # half-cent taxes: OCA rounded base * (rate / 100)
+        self.assertEqual(oca_gross_taxable(500.5, 115.12, 23.0, 0.5), (1001.0, 500.5))
+        self.assertEqual(oca_gross_taxable(450.5, 103.62, 23.0, 1.0), (450.5, 450.5))
+        self.assertEqual(oca_gross_taxable(1001.0, 115.12, 23.0, 0.5), (1001.0, 500.5))
 
     def _load_oca(self, bill):
         cr = self.env.cr
@@ -85,4 +89,72 @@ class TestHistoryImport(WithholdingCommon):
         self.assertEqual(
             self.env["withholding.history.statement"]._import_from_oca(),
             {"statements": 0, "moves": 0},
+        )
+
+    def test_reason_from_causale_pagamento(self):
+        bill = self._wt_invoice("in_invoice", 1000.0, self.vat_purchase, "2024-03-01")
+        cr = self.env.cr
+        ddl = OCA_DDL.replace("payment_reason_id", "causale_pagamento_id").replace(
+            "payment_reason (id int PRIMARY KEY, code varchar)",
+            "causale_pagamento (id int PRIMARY KEY, code varchar, name varchar)",
+        )
+        cr.execute(ddl)
+        cr.execute(
+            """
+            INSERT INTO causale_pagamento VALUES (1, 'A', 'x');
+            INSERT INTO withholding_tax VALUES (1, '1040', 'Ritenuta 1040', 1, %(c)s);
+            INSERT INTO withholding_tax_rate (withholding_tax_id, tax, base) VALUES (1, 20, 1);
+            INSERT INTO withholding_tax_statement VALUES (10, %(m)s, %(p)s, '2024-03-01', 1000, 200, 1, 'in');
+            """,
+            {"c": self.company.id, "m": bill.id, "p": self.partner_a.id},
+        )
+        Statement = self.env["withholding.history.statement"]
+        self.assertEqual(Statement._import_from_oca(), {"statements": 1, "moves": 0})
+        self.assertEqual(Statement.search([("oca_id", "=", 10)]).reason, "A")
+
+    def test_no_reason_table(self):
+        bill = self._wt_invoice("in_invoice", 1000.0, self.vat_purchase, "2024-03-01")
+        cr = self.env.cr
+        ddl = OCA_DDL.replace(
+            "CREATE TABLE payment_reason (id int PRIMARY KEY, code varchar);", ""
+        )
+        cr.execute(ddl)
+        cr.execute(
+            """
+            INSERT INTO withholding_tax VALUES (1, '1040', 'Ritenuta 1040', 1, %(c)s);
+            INSERT INTO withholding_tax_rate (withholding_tax_id, tax, base) VALUES (1, 20, 1);
+            INSERT INTO withholding_tax_statement VALUES (10, %(m)s, %(p)s, '2024-03-01', 1000, 200, 1, 'in');
+            """,
+            {"c": self.company.id, "m": bill.id, "p": self.partner_a.id},
+        )
+        Statement = self.env["withholding.history.statement"]
+        self.assertEqual(Statement._import_from_oca(), {"statements": 1, "moves": 0})
+        self.assertFalse(Statement.search([("oca_id", "=", 10)]).reason)
+
+    def test_rate_by_date_and_fallback(self):
+        bill = self._wt_invoice("in_invoice", 1000.0, self.vat_purchase, "2024-03-01")
+        cr = self.env.cr
+        cr.execute(OCA_DDL)
+        cr.execute(
+            """
+            INSERT INTO withholding_tax VALUES (1, 'X', 'Rit X', NULL, %(c)s);
+            INSERT INTO withholding_tax_rate (withholding_tax_id, date_start, date_stop, tax, base) VALUES
+                (1, '2020-01-01', '2021-12-31', 20, 1),
+                (1, '2022-01-01', NULL, 23, 0.5);
+            INSERT INTO withholding_tax_statement VALUES
+                (10, %(m)s, %(p)s, '2021-06-01', 1000, 200, 1, 'in'),
+                (11, %(m)s, %(p)s, '2023-06-01', 400, 46, 1, 'in'),
+                (12, %(m)s, %(p)s, '2019-06-01', 400, 46, 1, 'in');
+            """,
+            {"c": self.company.id, "m": bill.id, "p": self.partner_a.id},
+        )
+        Statement = self.env["withholding.history.statement"]
+        self.assertEqual(Statement._import_from_oca(), {"statements": 3, "moves": 0})
+        self.assertRecordValues(
+            Statement.search([("oca_id", "in", (10, 11, 12))], order="oca_id"),
+            [
+                {"rate": 20.0, "base_coeff": 1.0, "gross_amount": 1000.0, "taxable_amount": 1000.0},
+                {"rate": 23.0, "base_coeff": 0.5, "gross_amount": 400.0, "taxable_amount": 200.0},
+                {"rate": 23.0, "base_coeff": 0.5, "gross_amount": 400.0, "taxable_amount": 200.0},
+            ],
         )
