@@ -58,6 +58,7 @@ class TestHistoryImport(WithholdingCommon):
             st10,
             [
                 {
+                    "oca_wt_types": False,
                     "invoice_id": bill.id,
                     "wt_kind": "operated",
                     "reason": "A",
@@ -157,4 +158,37 @@ class TestHistoryImport(WithholdingCommon):
                 {"rate": 23.0, "base_coeff": 0.5, "gross_amount": 400.0, "taxable_amount": 200.0},
                 {"rate": 23.0, "base_coeff": 0.5, "gross_amount": 400.0, "taxable_amount": 200.0},
             ],
+        )
+
+    def test_import_wt_types(self):
+        bill = self._wt_invoice("in_invoice", 1000.0, self.vat_purchase, "2024-03-01")
+        cr = self.env.cr
+        cr.execute(OCA_DDL)
+        cr.execute(
+            """
+            ALTER TABLE withholding_tax ADD COLUMN wt_types varchar;
+            INSERT INTO withholding_tax
+                   (id, code, name, payment_reason_id, company_id, wt_types)
+            VALUES (1, '1040', 'Ritenuta 1040', NULL, %(c)s, 'ritenuta'),
+                   (2, 'ENASARCO', 'Enasarco', NULL, %(c)s, 'enasarco');
+            INSERT INTO withholding_tax_rate (withholding_tax_id, tax, base)
+            VALUES (1, 20, 1), (2, 8.5, 1);
+            INSERT INTO withholding_tax_statement VALUES
+                (10, %(m)s, %(p)s, '2024-03-01', 1000, 200, 1, 'in'),
+                (11, %(m)s, %(p)s, '2024-03-01', 1000, 85, 2, 'in');
+            INSERT INTO withholding_tax_move VALUES
+                (20, 10, %(p)s, '2024-04-01', 200, 'paid'),
+                (21, 11, %(p)s, '2024-04-01', 85, 'paid');
+            """,
+            {"c": self.company.id, "m": bill.id, "p": self.partner_a.id},
+        )
+        Statement = self.env["withholding.history.statement"]
+        self.assertEqual(Statement._import_from_oca(), {"statements": 2, "moves": 2})
+        self.assertRecordValues(
+            Statement.search([("oca_id", "in", (10, 11))], order="oca_id"),
+            [{"oca_wt_types": "ritenuta"}, {"oca_wt_types": "enasarco"}],
+        )
+        self.assertRecordValues(
+            self._register_rows(bill).sorted("amount"),
+            [{"amount": 85.0, "irpef": False}, {"amount": 200.0, "irpef": True}],
         )

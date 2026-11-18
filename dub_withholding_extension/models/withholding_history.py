@@ -51,6 +51,12 @@ class WithholdingHistoryStatement(models.Model):
     withholding_code = fields.Char()
     withholding_name = fields.Char()
     reason = fields.Char()
+    oca_wt_types = fields.Char(
+        string="OCA Withholding Type",
+        help="Type of the OCA withholding tax (ritenuta, enasarco, inps, enpam, "
+        "other). Empty or 'ritenuta' means an IRPEF withholding, the only kind "
+        "in the CU summary.",
+    )
     rate = fields.Float()
     base_coeff = fields.Float()
     gross_amount = fields.Monetary()
@@ -96,6 +102,9 @@ class WithholdingHistoryStatement(models.Model):
                 )
                 reason_col = SQL("pr.code")
                 break
+        wt_types_col = SQL("NULL")
+        if column_exists(cr, "withholding_tax", "wt_types"):
+            wt_types_col = SQL("wt.wt_types")
         cr.execute(
             SQL(
                 """
@@ -104,6 +113,7 @@ class WithholdingHistoryStatement(models.Model):
                        COALESCE(s.date, am.date) AS date,
                        s.base, s.tax, s.wt_type, wt.code, wt.name,
                        %(reason_col)s AS reason,
+                       %(wt_types_col)s AS wt_types,
                        COALESCE(am.company_id, wt.company_id) AS company_id,
                        rt.tax AS rate, rt.base AS coeff
                   FROM withholding_tax_statement s
@@ -129,6 +139,7 @@ class WithholdingHistoryStatement(models.Model):
                 """,
                 reason_col=reason_col,
                 reason_join=reason_join,
+                wt_types_col=wt_types_col,
             )
         )
         rows = cr.dictfetchall()
@@ -154,6 +165,7 @@ class WithholdingHistoryStatement(models.Model):
                     "withholding_code": row["code"],
                     "withholding_name": row["name"],
                     "reason": row["reason"],
+                    "oca_wt_types": row["wt_types"],
                     "rate": rate,
                     "base_coeff": coeff,
                     "gross_amount": gross,

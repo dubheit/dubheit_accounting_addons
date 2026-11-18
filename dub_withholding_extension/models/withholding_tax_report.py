@@ -39,6 +39,12 @@ class WithholdingTaxReport(models.Model):
     tax_id = fields.Many2one("account.tax", string="Withholding Tax", readonly=True)
     withholding_code = fields.Char(readonly=True)
     reason = fields.Char(readonly=True)
+    irpef = fields.Boolean(
+        string="IRPEF",
+        readonly=True,
+        help="IRPEF withholding (RT01, RT02 or an OCA 'ritenuta'): the only "
+        "kind in the CU summary, not ENASARCO, INPS or ENPAM contributions.",
+    )
     amount = fields.Monetary(string="Withholding", readonly=True)
     gross_amount = fields.Monetary(readonly=True)
     taxable_amount = fields.Monetary(readonly=True)
@@ -86,6 +92,7 @@ class WithholdingTaxReport(models.Model):
                    pd.payment_date, aml.tax_line_id AS tax_id,
                    tax.l10n_it_withholding_type AS withholding_code,
                    tax.l10n_it_withholding_reason AS reason,
+                   tax.l10n_it_withholding_type IN ('RT01', 'RT02') AS irpef,
                    amt.amount,
                    ROUND(ABS(aml.tax_base_amount) * amt.amount
                          / NULLIF(inv.total, 0), 2) AS gross_amount,
@@ -158,6 +165,7 @@ class WithholdingTaxReport(models.Model):
                    hs.invoice_id, hm.partner_id,
                    hm.date AS payment_date, NULL::int AS tax_id,
                    hs.withholding_code, hs.reason,
+                   COALESCE(hs.oca_wt_types, 'ritenuta') = 'ritenuta' AS irpef,
                    hm.amount,
                    ROUND(hm.amount * hs.gross_amount
                          / NULLIF(hs.amount, 0), 2) AS gross_amount,

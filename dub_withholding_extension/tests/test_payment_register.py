@@ -4,6 +4,7 @@ from datetime import date
 
 from odoo import Command
 from odoo.tests import new_test_user
+from odoo.tools.safe_eval import safe_eval
 
 from .common import WithholdingCommon
 
@@ -93,6 +94,28 @@ class TestPaymentRegister(WithholdingCommon):
         self._wt_pay_after_lock(bill, "2025-12-28", "2025-12-31")
         self.company.l10n_it_wt_start_date = "2026-01-01"
         self.assertFalse(self._register_rows(bill))
+
+    def test_cu_only_irpef(self):
+        enasarco = (
+            self.env["account.chart.template"]
+            .with_company(self.company)
+            .ref("enasarcoa")
+        )
+        bill = self._wt_invoice(
+            "in_invoice",
+            1000.0,
+            self.vat_purchase + self.wt_23_purchase + enasarco,
+            "2025-12-01",
+        )
+        self._wt_pay(bill, bill.amount_total, "2025-12-20")
+        rows = self._register_rows(bill)
+        self.assertEqual(rows.tax_id, self.wt_23_purchase | enasarco)
+        self.assertEqual(rows.filtered("irpef").tax_id, self.wt_23_purchase)
+        action = self.env.ref("dub_withholding_extension.action_withholding_cu_summary")
+        cu_rows = self.env["l10n_it.withholding.tax.report"].search(
+            safe_eval(action.domain) + [("invoice_id", "=", bill.id)]
+        )
+        self.assertEqual(cu_rows.tax_id, self.wt_23_purchase)
 
     def test_sale_withholding_is_suffered(self):
         inv = self._wt_invoice(

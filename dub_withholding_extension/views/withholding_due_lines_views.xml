@@ -149,12 +149,13 @@
         <field name="res_model">l10n_it.withholding.tax.report</field>
         <field name="view_mode">pivot,list</field>
         <field name="search_view_id" ref="view_withholding_due_line_search" />
-        <field name="domain">[('wt_kind', '=', 'operated')]</field>
+        <field name="domain">[('wt_kind', '=', 'operated'), ('irpef', '=', True)]</field>
         <field name="context">{'pivot_row_groupby': ['partner_id', 'reason'], 'pivot_column_groupby': ['payment_date:year'], 'pivot_measures': ['gross_amount', 'taxable_amount', 'amount']}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">No operated withholding taxes.</p>
-            <p>Gross amount, taxable amount and withholding by partner, reason
-               and payment year: the figures for the Certificazione Unica.</p>
+            <p>Gross amount, taxable amount and IRPEF withholding by partner,
+               reason and payment year: the figures for the Certificazione
+               Unica.</p>
         </field>
     </record>
 

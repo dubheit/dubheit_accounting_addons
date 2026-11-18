@@ -38,6 +38,7 @@
                         <group>
                             <field name="withholding_code" />
                             <field name="withholding_name" />
+                            <field name="oca_wt_types" />
                             <field name="reason" />
                             <field name="rate" />
                             <field name="base_coeff" />
