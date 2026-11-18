@@ -1,368 +1,711 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* l10n_it_withholding_tax
+# 	* dub_withholding_extension
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0+e-20251008\n"
+"Project-Id-Version: Odoo Server 18.0-20260926\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-15 09:36+0000\n"
-"PO-Revision-Date: 2026-07-15 09:36+0000\n"
+"POT-Creation-Date: 2026-11-18 10:13+0000\n"
+"PO-Revision-Date: 2026-11-18 10:13+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: it_IT\n"
 "Plural-Forms: \n"
+"Language: it\n"
 
-#. module: l10n_it_withholding_tax
-#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_payment_form
+#. module: dub_withholding_extension
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_payment_form
 msgid "<span>Journal Entry</span>"
 msgstr "<span>Registrazione contabile</span>"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model,name:l10n_it_withholding_tax.model_account_account
+#. module: dub_withholding_extension
+#: model:ir.model,name:dub_withholding_extension.model_account_account
 msgid "Account"
 msgstr "Conto"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,help:l10n_it_withholding_tax.field_withholding_payment_type__counterpart_account_id
+#. module: dub_withholding_extension
+#. odoo-python
+#: code:addons/dub_withholding_extension/models/withholding_payment_type.py:0
+msgid "Account %s made reconcilable to pay the withholding."
+msgstr "Il conto %s è stato reso riconciliabile per versare la ritenuta."
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,help:dub_withholding_extension.field_withholding_payment_type__counterpart_account_id
 msgid ""
 "Account credited when the withholding taxes are paid (e.g. Erario "
 "c/versamenti or the bank account)."
 msgstr "Conto accreditato quando le ritenute vengono versate (es. Erario c/versamenti o il conto bancario)."
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__date
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__date
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment__date
 msgid "Accounting Date"
 msgstr "Data registrazione"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,help:l10n_it_withholding_tax.field_withholding_payment_type__account_ids
+#. module: dub_withholding_extension
+#: model:ir.model.fields,help:dub_withholding_extension.field_withholding_payment_type__account_ids
 msgid ""
 "Accounts that accumulate the amounts to be paid, derived from the selected "
 "taxes. Their unreconciled lines are the amounts due. You may override them "
 "if needed."
 msgstr "Conti che accumulano gli importi da versare, derivati dalle imposte selezionate. Le loro righe non riconciliate sono gli importi dovuti. Puoi modificarli se necessario."
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_type__active
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__message_needaction
+msgid "Action Needed"
+msgstr "Azione richiesta"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__active
 msgid "Active"
 msgstr "Attivo"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__amount
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_move__amount
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_statement__amount
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment__amount
 msgid "Amount"
 msgstr "Importo"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__amount_due
-msgid "Amount to Pay"
-msgstr "Importo da versare"
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_statement__amount_paid
+msgid "Amount Paid"
+msgstr "Importo versato"
 
-#. module: l10n_it_withholding_tax
-#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_payment_create_form
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__message_attachment_count
+msgid "Attachment Count"
+msgstr "Numero allegati"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_statement__base_coeff
+msgid "Base Coeff"
+msgstr "Coefficiente base"
+
+#. module: dub_withholding_extension
+#: model:ir.actions.act_window,name:dub_withholding_extension.action_withholding_cu_summary
+#: model:ir.ui.menu,name:dub_withholding_extension.menu_withholding_cu_summary
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_cu_summary_list
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_cu_summary_pivot
+msgid "CU Summary"
+msgstr "Riepilogo CU"
+
+#. module: dub_withholding_extension
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_payment_create_form
 msgid "Cancel"
 msgstr "Annulla"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields.selection,name:l10n_it_withholding_tax.selection__l10n_it_withholding_tax_report__parent_state__cancel
-msgid "Cancelled"
-msgstr "Annullato"
+#. module: dub_withholding_extension
+#. odoo-python
+#: code:addons/dub_withholding_extension/models/withholding_payment_type.py:0
+msgid ""
+"Cash basis taxes are not enabled on the company: withholding taxes are not "
+"recorded on payment."
+msgstr "Le imposte con esigibilità per cassa non sono abilitate sull'azienda: le ritenute non vengono registrate al pagamento."
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__company_id
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__company_id
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_type__company_id
+#. module: dub_withholding_extension
+#: model:ir.model,name:dub_withholding_extension.model_res_company
+msgid "Companies"
+msgstr "Aziende"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_invoice_report__company_id
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__company_id
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_move__company_id
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_statement__company_id
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment__company_id
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__company_id
 msgid "Company"
 msgstr "Azienda"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_account_tax__l10n_it_wt_company_tax_id
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_account_tax__l10n_it_wt_company_tax_id
 msgid "Company-charge Tax"
 msgstr "Imposta a carico ditta"
 
-#. module: l10n_it_withholding_tax
-#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_payment_form
+#. module: dub_withholding_extension
+#: model:ir.model,name:dub_withholding_extension.model_res_config_settings
+msgid "Config Settings"
+msgstr "Impostazioni di configurazione"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__l10n_it_wt_config_warning
+msgid "Configuration Warning"
+msgstr "Avviso di configurazione"
+
+#. module: dub_withholding_extension
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_payment_form
 msgid "Confirm"
 msgstr "Conferma"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields.selection,name:l10n_it_withholding_tax.selection__withholding_payment__state__confirmed
+#. module: dub_withholding_extension
+#: model:ir.model.fields.selection,name:dub_withholding_extension.selection__withholding_payment__state__confirmed
 msgid "Confirmed"
 msgstr "Confermato"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_type__counterpart_account_id
+#. module: dub_withholding_extension
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.res_config_settings_view_form
+msgid ""
+"Core withholding entries dated before this day stay out of the withholding "
+"register and of the F24 payments."
+msgstr "Le registrazioni delle ritenute di Odoo datate prima di questo giorno restano fuori dal registro ritenute e dai versamenti F24."
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,help:dub_withholding_extension.field_res_company__l10n_it_wt_start_date
+#: model:ir.model.fields,help:dub_withholding_extension.field_res_config_settings__l10n_it_wt_start_date
+msgid ""
+"Core withholding entries dated before this day stay out of the withholding "
+"register and of the F24 payments. Set it to the day the company switched to "
+"the core withholding taxes."
+msgstr "Le registrazioni delle ritenute di Odoo datate prima di questo giorno restano fuori dal registro ritenute e dai versamenti F24. Impostare il giorno in cui l'azienda è passata alle ritenute di Odoo."
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__counterpart_account_id
 msgid "Counterpart Account"
 msgstr "Conto contropartita"
 
-#. module: l10n_it_withholding_tax
-#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_payment_create_form
+#. module: dub_withholding_extension
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_payment_create_form
 msgid "Create"
 msgstr "Crea"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.actions.act_window,name:l10n_it_withholding_tax.action_withholding_payment_create
-#: model:ir.actions.act_window,name:l10n_it_withholding_tax.action_withholding_payment_create_report
-#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_payment_create_form
+#. module: dub_withholding_extension
+#: model:ir.actions.act_window,name:dub_withholding_extension.action_withholding_payment_create
+#: model:ir.actions.act_window,name:dub_withholding_extension.action_withholding_payment_create_report
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_payment_create_form
 msgid "Create Withholding Payment"
 msgstr "Crea versamento ritenute"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model,name:l10n_it_withholding_tax.model_withholding_payment_create
+#. module: dub_withholding_extension
+#: model:ir.model,name:dub_withholding_extension.model_withholding_payment_create
 msgid "Create Withholding Payment from Lines"
 msgstr "Crea versamento ritenute da righe"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__create_uid
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_create__create_uid
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_type__create_uid
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_move__create_uid
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_statement__create_uid
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment__create_uid
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_create__create_uid
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__create_uid
 msgid "Created by"
 msgstr "Creato da"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__create_date
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_create__create_date
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_type__create_date
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_move__create_date
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_statement__create_date
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment__create_date
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_create__create_date
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__create_date
 msgid "Created on"
 msgstr "Creato il"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__currency_id
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__currency_id
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_invoice_report__currency_id
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__currency_id
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_move__currency_id
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_statement__currency_id
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment__currency_id
 msgid "Currency"
 msgstr "Valuta"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_create__date
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_move__date
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_statement__date
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_create__date
 msgid "Date"
 msgstr "Data"
 
-#. module: l10n_it_withholding_tax
-#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_payment_type_form
+#. module: dub_withholding_extension
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_payment_type_form
 msgid "Derived Payable Accounts"
 msgstr "Conti da versare derivati"
 
-#. module: l10n_it_withholding_tax
-#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_payment_type_form
+#. module: dub_withholding_extension
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_payment_type_form
 msgid "Derived from the taxes; editable if needed."
 msgstr "Derivati dalle imposte; modificabili se necessario."
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__display_name
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__display_name
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_create__display_name
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_type__display_name
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_invoice_report__display_name
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__display_name
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_move__display_name
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_statement__display_name
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment__display_name
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_create__display_name
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__display_name
 msgid "Display Name"
 msgstr "Nome visualizzato"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__move_id
-#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_due_line_list
-#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_due_line_search
-msgid "Document"
-msgstr "Documento"
-
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__invoice_date
-msgid "Document Date"
-msgstr "Data documento"
-
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__move_name
-msgid "Document Number"
-msgstr "Numero documento"
-
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields.selection,name:l10n_it_withholding_tax.selection__l10n_it_withholding_tax_report__parent_state__draft
-#: model:ir.model.fields.selection,name:l10n_it_withholding_tax.selection__withholding_payment__state__draft
+#. module: dub_withholding_extension
+#: model:ir.model.fields.selection,name:dub_withholding_extension.selection__withholding_payment__state__draft
 msgid "Draft"
 msgstr "Bozza"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_type__codice_tributo
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__f24_date
+msgid "F24 Date"
+msgstr "Data F24"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__withholding_payment_id
+msgid "F24 Payment"
+msgstr "Versamento F24"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__codice_tributo
 msgid "F24 Tax Code"
 msgstr "Codice tributo F24"
 
-#. module: l10n_it_withholding_tax
-#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_due_line_search
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__partner_fiscalcode
+msgid "Fiscal Code"
+msgstr "Codice fiscale"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__message_follower_ids
+msgid "Followers"
+msgstr "Follower"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Follower (partner)"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_invoice_report__gross_amount
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__gross_amount
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_statement__gross_amount
+msgid "Gross Amount"
+msgstr "Compenso lordo"
+
+#. module: dub_withholding_extension
+#: model_terms:ir.actions.act_window,help:dub_withholding_extension.action_withholding_cu_summary
+msgid ""
+"Gross amount, taxable amount and withholding by partner, reason\n"
+"               and payment year: the figures for the Certificazione Unica."
+msgstr "Compenso lordo, imponibile e ritenuta per partner, causale\n               e anno di pagamento: i dati per la Certificazione Unica."
+
+#. module: dub_withholding_extension
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_due_line_search
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_invoice_report_search
 msgid "Group By"
 msgstr "Raggruppa per"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__id
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__id
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_create__id
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_type__id
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__has_message
+msgid "Has Message"
+msgstr "Ha un messaggio"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_invoice_report__id
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__id
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_move__id
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_statement__id
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment__id
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_create__id
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__id
 msgid "ID"
 msgstr "ID"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model,name:l10n_it_withholding_tax.model_account_move_line
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__move_line_id
+#. module: dub_withholding_extension
+#: model:ir.model.fields,help:dub_withholding_extension.field_withholding_payment_type__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Se selezionato, nuovi messaggi richiedono la tua attenzione."
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,help:dub_withholding_extension.field_withholding_payment_type__message_has_error
+#: model:ir.model.fields,help:dub_withholding_extension.field_withholding_payment_type__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Se selezionato, alcuni messaggi hanno un errore di consegna."
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_invoice_report__invoice_id
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__invoice_id
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_statement__invoice_id
+msgid "Invoice"
+msgstr "Fattura"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_invoice_report__invoice_date
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_invoice_report_search
+msgid "Invoice Date"
+msgstr "Data fattura"
+
+#. module: dub_withholding_extension
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_invoice_report_search
+msgid "Invoice Year"
+msgstr "Anno fattura"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__message_is_follower
+msgid "Is Follower"
+msgstr "È un follower"
+
+#. module: dub_withholding_extension
+#: model:ir.model,name:dub_withholding_extension.model_account_move_line
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__move_line_id
 msgid "Journal Item"
 msgstr "Movimento contabile"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,help:l10n_it_withholding_tax.field_withholding_payment_type__journal_id
+#. module: dub_withholding_extension
+#: model:ir.model.fields,help:dub_withholding_extension.field_withholding_payment_type__journal_id
 msgid "Journal used to book the payment (F24) entry."
 msgstr "Registro usato per contabilizzare il versamento (F24)."
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__write_uid
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_create__write_uid
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_type__write_uid
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_invoice_report__wt_kind
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__wt_kind
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_statement__wt_kind
+msgid "Kind"
+msgstr "Tipo"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_move__write_uid
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_statement__write_uid
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment__write_uid
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_create__write_uid
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__write_uid
 msgid "Last Updated by"
 msgstr "Ultimo aggiornamento di"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__write_date
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_create__write_date
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_type__write_date
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_move__write_date
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_statement__write_date
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment__write_date
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_create__write_date
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__write_date
 msgid "Last Updated on"
 msgstr "Ultimo aggiornamento il"
 
-#. module: l10n_it_withholding_tax
-#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_payment_form
+#. module: dub_withholding_extension
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_payment_form
 msgid "Load Due Lines"
 msgstr "Carica righe da versare"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__name
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_type__name
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__message_has_error
+msgid "Message Delivery error"
+msgstr "Errore di consegna messaggio"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__message_ids
+msgid "Messages"
+msgstr "Messaggi"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment__name
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__name
 msgid "Name"
 msgstr "Nome"
 
-#. module: l10n_it_withholding_tax
-#: model_terms:ir.actions.act_window,help:l10n_it_withholding_tax.action_withholding_due_lines
+#. module: dub_withholding_extension
+#. odoo-python
+#: code:addons/dub_withholding_extension/models/withholding_payment.py:0
+msgid "New"
+msgstr "Nuovo"
+
+#. module: dub_withholding_extension
+#: model_terms:ir.actions.act_window,help:dub_withholding_extension.action_withholding_invoice_register
+msgid "No invoices with withholding taxes."
+msgstr "Nessuna fattura con ritenute."
+
+#. module: dub_withholding_extension
+#: model_terms:ir.actions.act_window,help:dub_withholding_extension.action_withholding_cu_summary
+msgid "No operated withholding taxes."
+msgstr "Nessuna ritenuta operata."
+
+#. module: dub_withholding_extension
+#. odoo-python
+#: code:addons/dub_withholding_extension/wizard/withholding_payment_create.py:0
+msgid "No unreconciled lines selected."
+msgstr "Nessuna riga non riconciliata selezionata."
+
+#. module: dub_withholding_extension
+#. odoo-python
+#: code:addons/dub_withholding_extension/models/withholding_payment.py:0
+msgid "No withholding lines to pay."
+msgstr "Nessuna riga di ritenuta da versare."
+
+#. module: dub_withholding_extension
+#: model_terms:ir.actions.act_window,help:dub_withholding_extension.action_withholding_register
+msgid "No withholding taxes paid yet."
+msgstr "Nessuna ritenuta ancora versata."
+
+#. module: dub_withholding_extension
+#: model_terms:ir.actions.act_window,help:dub_withholding_extension.action_withholding_due_lines
 msgid "No withholding taxes to pay."
 msgstr "Nessuna ritenuta da versare."
 
-#. module: l10n_it_withholding_tax
-#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_due_line_search
-msgid "Not Yet Paid (F24)"
-msgstr "Non ancora versato (F24)"
+#. module: dub_withholding_extension
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_due_line_search
+msgid "Not Paid (F24)"
+msgstr "Non versata (F24)"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__reconciled
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Numero di azioni"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__message_has_error_counter
+msgid "Number of errors"
+msgstr "Numero di errori"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,help:dub_withholding_extension.field_withholding_payment_type__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Numero di messaggi che richiedono un'azione"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,help:dub_withholding_extension.field_withholding_payment_type__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Numero di messaggi con errore di consegna"
+
+#. module: dub_withholding_extension
+#: model:ir.actions.act_window,name:dub_withholding_extension.action_withholding_history_statement
+#: model:ir.ui.menu,name:dub_withholding_extension.menu_withholding_history
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_due_line_search
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_invoice_report_search
+msgid "OCA History"
+msgstr "Storico OCA"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__history_move_id
+msgid "OCA History Payment"
+msgstr "Pagamento storico OCA"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_move__oca_id
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_statement__oca_id
+msgid "OCA ID"
+msgstr "ID OCA"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields.selection,name:dub_withholding_extension.selection__l10n_it_withholding_invoice_report__source__oca
+#: model:ir.model.fields.selection,name:dub_withholding_extension.selection__l10n_it_withholding_tax_report__source__oca
+msgid "OCA history"
+msgstr "Storico OCA"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields.selection,name:dub_withholding_extension.selection__l10n_it_withholding_invoice_report__source__core
+#: model:ir.model.fields.selection,name:dub_withholding_extension.selection__l10n_it_withholding_tax_report__source__core
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_due_line_search
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_invoice_report_search
+msgid "Odoo"
+msgstr "Odoo"
+
+#. module: dub_withholding_extension
+#: model_terms:ir.actions.act_window,help:dub_withholding_extension.action_withholding_invoice_register
+msgid ""
+"One row per invoice and withholding tax, with the amount already\n"
+"               paid and the residual, from the posted invoices and from the OCA\n"
+"               history."
+msgstr "Una riga per fattura e ritenuta, con l'importo già\n               versato e il residuo, dalle fatture registrate e dallo\n               storico OCA."
+
+#. module: dub_withholding_extension
+#: model_terms:ir.actions.act_window,help:dub_withholding_extension.action_withholding_register
+msgid ""
+"One row per payment of an invoice with withholding taxes, from\n"
+"               the cash basis entries and from the OCA history."
+msgstr "Una riga per ogni pagamento di una fattura con ritenute, dalle\n               registrazioni per cassa e dallo storico OCA."
+
+#. module: dub_withholding_extension
+#. odoo-python
+#: code:addons/dub_withholding_extension/models/withholding_payment.py:0
+msgid "Only draft payments can be confirmed."
+msgstr "Solo i versamenti in bozza possono essere confermati."
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields.selection,name:dub_withholding_extension.selection__l10n_it_withholding_invoice_report__wt_kind__operated
+#: model:ir.model.fields.selection,name:dub_withholding_extension.selection__l10n_it_withholding_tax_report__wt_kind__operated
+#: model:ir.model.fields.selection,name:dub_withholding_extension.selection__withholding_history_statement__wt_kind__operated
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_due_line_search
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_invoice_report_search
+msgid "Operated"
+msgstr "Operata"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__paid_f24
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_due_line_search
 msgid "Paid (F24)"
 msgstr "Versato (F24)"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__account_id
-#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_due_line_search
-msgid "Payable Account"
-msgstr "Conto da versare"
+#. module: dub_withholding_extension
+#: model:ir.model.fields.selection,name:dub_withholding_extension.selection__withholding_history_move__state__paid
+msgid "Paid (OCA data)"
+msgstr "Versata (dato OCA)"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_type__account_ids
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_invoice_report__partner_id
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__partner_id
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_move__partner_id
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_statement__partner_id
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_due_line_search
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_invoice_report_search
+msgid "Partner"
+msgstr "Partner"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__account_ids
 msgid "Payable Accounts"
 msgstr "Conti da versare"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__date_payment
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__payment_date
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment__date_payment
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_due_line_search
 msgid "Payment Date"
 msgstr "Data pagamento"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__move_id
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment__move_id
 msgid "Payment Entry"
 msgstr "Registrazione versamento"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_type__journal_id
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__journal_id
 msgid "Payment Journal"
 msgstr "Registro versamento"
 
-#. module: l10n_it_withholding_tax
-#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_due_line_search
-msgid "Payment Month"
-msgstr "Mese di pagamento"
-
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__type_id
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_create__type_id
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment__type_id
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_create__type_id
 msgid "Payment Type"
 msgstr "Tipo versamento"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.ui.menu,name:l10n_it_withholding_tax.menu_withholding_payment
+#. module: dub_withholding_extension
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_due_line_search
+msgid "Payment Year"
+msgstr "Anno di pagamento"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_statement__move_ids
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_history_statement_form
 msgid "Payments"
 msgstr "Versamenti"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__date_stop
+#. module: dub_withholding_extension
+#: model:ir.ui.menu,name:dub_withholding_extension.menu_withholding_payment
+msgid "Payments (F24)"
+msgstr "Versamenti (F24)"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,help:dub_withholding_extension.field_account_tax__l10n_it_wt_base_percent
+msgid ""
+"Percentage of the amount subject to withholding that makes up the taxable "
+"base. Core withholding taxes only carry the effective rate (e.g. 11.5% = 23%"
+" on 50%), while the CU needs the taxable amount."
+msgstr "Percentuale dell'importo soggetto a ritenuta che costituisce la base imponibile. Le ritenute di Odoo riportano solo l'aliquota effettiva (es. 11,5% = 23% sul 50%), mentre la CU richiede l'imponibile."
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment__date_stop
 msgid "Period End"
 msgstr "Fine periodo"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__date_start
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment__date_start
 msgid "Period Start"
 msgstr "Inizio periodo"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields.selection,name:l10n_it_withholding_tax.selection__l10n_it_withholding_tax_report__parent_state__posted
-msgid "Posted"
-msgstr "Registrato"
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_statement__rate
+msgid "Rate"
+msgstr "Aliquota"
 
-#. module: l10n_it_withholding_tax
-#: model_terms:ir.actions.act_window,help:l10n_it_withholding_tax.action_withholding_due_lines
-msgid ""
-"Posted, still-unpaid lines on the withholding payable accounts\n"
-"               appear here, grouped by withholding type. Select them and use\n"
-"               <b>Actions &gt; Create Withholding Payment</b> to generate the\n"
-"               F24 entry and reconcile them."
-msgstr "Le righe registrate e non ancora versate sui conti delle ritenute da versare compaiono qui, raggruppate per tipo di ritenuta. Selezionale e usa <b>Azioni &gt; Crea pagamento ritenute</b> per generare la registrazione F24 e riconciliarle."
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_invoice_report__reason
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__reason
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_statement__reason
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_due_line_search
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_invoice_report_search
+msgid "Reason"
+msgstr "Causale"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,help:l10n_it_withholding_tax.field_account_account__l10n_it_wt_payable
+#. module: dub_withholding_extension
+#: model:ir.actions.act_window,name:dub_withholding_extension.action_withholding_invoice_register
+#: model:ir.ui.menu,name:dub_withholding_extension.menu_withholding_invoice_register
+msgid "Register by Invoice"
+msgstr "Registro per fattura"
+
+#. module: dub_withholding_extension
+#: model:ir.actions.act_window,name:dub_withholding_extension.action_withholding_register
+#: model:ir.ui.menu,name:dub_withholding_extension.menu_withholding_register
+msgid "Register by Payment"
+msgstr "Registro per pagamento"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Errore di consegna SMS"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,help:dub_withholding_extension.field_account_account__l10n_it_wt_payable
 msgid ""
 "Set automatically when the account is used by a withholding payment type. "
 "Its unreconciled lines are amounts to be paid."
 msgstr "Impostato automaticamente quando il conto è usato da un tipo di pagamento ritenute. Le sue righe non riconciliate sono importi da versare."
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__state
+#. module: dub_withholding_extension
+#. odoo-python
+#: code:addons/dub_withholding_extension/models/withholding_payment.py:0
+msgid "Set the payment type first."
+msgstr "Impostare prima il tipo di versamento."
+
+#. module: dub_withholding_extension
+#. odoo-python
+#: code:addons/dub_withholding_extension/models/withholding_payment.py:0
+msgid "Some lines are on accounts not configured on the payment type: %s"
+msgstr "Alcune righe sono su conti non configurati nel tipo di versamento: %s"
+
+#. module: dub_withholding_extension
+#. odoo-python
+#: code:addons/dub_withholding_extension/models/withholding_payment.py:0
+msgid "Some selected lines are already reconciled. Reload the lines."
+msgstr "Alcune righe selezionate sono già riconciliate. Ricaricare le righe."
+
+#. module: dub_withholding_extension
+#. odoo-python
+#: code:addons/dub_withholding_extension/models/withholding_payment_type.py:0
+msgid ""
+"Some taxes are not due on payment: the withholding is not supported unless "
+"the taxes are cash basis."
+msgstr "Alcune imposte non sono esigibili al pagamento: la ritenuta non è supportata se le imposte non sono per cassa."
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_invoice_report__source
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__source
+msgid "Source"
+msgstr "Origine"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_move__state
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment__state
 msgid "State"
 msgstr "Stato"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__parent_state
-msgid "Status"
-msgstr "Stato"
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_move__statement_id
+msgid "Statement"
+msgstr "Prospetto"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__partner_id
-#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_due_line_search
-msgid "Supplier"
-msgstr "Fornitore"
+#. module: dub_withholding_extension
+#: model:ir.model.fields.selection,name:dub_withholding_extension.selection__l10n_it_withholding_invoice_report__wt_kind__suffered
+#: model:ir.model.fields.selection,name:dub_withholding_extension.selection__l10n_it_withholding_tax_report__wt_kind__suffered
+#: model:ir.model.fields.selection,name:dub_withholding_extension.selection__withholding_history_statement__wt_kind__suffered
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_due_line_search
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_invoice_report_search
+msgid "Suffered"
+msgstr "Subita"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__supplier_paid
-#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_due_line_search
-msgid "Supplier Paid"
-msgstr "Fornitore pagato"
-
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__payment_date
-msgid "Supplier Payment Date"
-msgstr "Data pagamento fornitore"
-
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__ref
-msgid "Supplier Reference"
-msgstr "Riferimento fornitore"
-
-#. module: l10n_it_withholding_tax
-#: model:ir.model,name:l10n_it_withholding_tax.model_account_tax
+#. module: dub_withholding_extension
+#: model:ir.model,name:dub_withholding_extension.model_account_tax
 msgid "Tax"
 msgstr "Imposta"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,help:l10n_it_withholding_tax.field_account_tax__l10n_it_wt_company_tax_id
+#. module: dub_withholding_extension
+#: model:ir.model.fields,help:dub_withholding_extension.field_account_tax__l10n_it_wt_company_tax_id
 msgid ""
 "Tax charged to the company that is automatically added to a line whenever "
 "this withholding tax is applied (e.g. the ENASARCO company quota paired with"
@@ -370,85 +713,205 @@ msgid ""
 "it does not change the invoice total."
 msgstr "Imposta a carico dell'azienda aggiunta automaticamente a una riga ogni volta che viene applicata questa ritenuta (es. la quota ENASARCO azienda abbinata alla ritenuta ENASARCO dell'agente). È tipicamente un'imposta reverse-charge, quindi non modifica il totale della fattura."
 
-#. module: l10n_it_withholding_tax
-#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_due_line_list
-msgid "Total to pay"
-msgstr "Totale da versare"
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_invoice_report__taxable_amount
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__taxable_amount
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_statement__taxable_amount
+msgid "Taxable Amount"
+msgstr "Imponibile"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,help:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__supplier_paid
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_account_tax__l10n_it_wt_base_percent
+msgid "Taxable Base %"
+msgstr "% base imponibile"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,help:dub_withholding_extension.field_l10n_it_withholding_tax_report__partner_vat
 msgid ""
-"True when the source document has been paid to the supplier, which triggers "
-"the obligation to pay the withholding."
-msgstr "Vero quando il documento di origine è stato pagato al fornitore, il che fa scattare l'obbligo di versamento della ritenuta."
+"The Tax Identification Number. Values here will be validated based on the "
+"country format. You can use '/' to indicate that the partner is not subject "
+"to tax."
+msgstr "Il codice di identificazione fiscale. I valori vengono validati in base al formato del paese. Si può usare '/' per indicare che il partner non è soggetto a imposta."
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,help:l10n_it_withholding_tax.field_withholding_payment__move_line_ids
+#. module: dub_withholding_extension
+#: model:ir.model.fields.selection,name:dub_withholding_extension.selection__withholding_history_move__state__due
+msgid "To Pay"
+msgstr "Da versare"
+
+#. module: dub_withholding_extension
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_cu_summary_list
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_due_line_list
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_history_statement_form
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_history_statement_list
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_invoice_report_list
+msgid "Total"
+msgstr "Totale"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,help:dub_withholding_extension.field_withholding_payment__move_line_ids
 msgid "Unreconciled lines on the payable accounts to be paid."
 msgstr "Righe non riconciliate sui conti da versare, da pagare."
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,help:l10n_it_withholding_tax.field_withholding_payment_type__tax_ids
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__partner_vat
+msgid "VAT"
+msgstr "Partita IVA"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__website_message_ids
+msgid "Website Messages"
+msgstr "Messaggi dal sito web"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,help:dub_withholding_extension.field_withholding_payment_type__website_message_ids
+msgid "Website communication history"
+msgstr "Cronologia delle comunicazioni dal sito web"
+
+#. module: dub_withholding_extension
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_invoice_report_search
+msgid "With Residual"
+msgstr "Con residuo"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_invoice_report__amount_paid
+msgid "Withheld Paid"
+msgstr "Ritenuta versata"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_invoice_report__amount_residual
+msgid "Withheld Residual"
+msgstr "Ritenuta residua"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_invoice_report__amount
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__amount
+msgid "Withholding"
+msgstr "Ritenuta"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,help:dub_withholding_extension.field_withholding_payment_type__tax_ids
 msgid ""
 "Withholding / social security taxes (ritenute d'acconto, ENASARCO, cassa "
 "previdenziale) managed by this payment type. The payable accounts are "
 "derived from their tax repartition."
 msgstr "Imposte di ritenuta / previdenziali (ritenute d'acconto, ENASARCO, cassa previdenziale) gestite da questo tipo di pagamento. I conti da versare sono derivati dalla ripartizione delle imposte."
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment__move_line_ids
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_create__line_ids
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_invoice_report__withholding_code
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__withholding_code
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_statement__withholding_code
+msgid "Withholding Code"
+msgstr "Codice ritenuta"
+
+#. module: dub_withholding_extension
+#: model:ir.model,name:dub_withholding_extension.model_withholding_history_move
+msgid "Withholding History Payment"
+msgstr "Pagamento storico ritenute"
+
+#. module: dub_withholding_extension
+#: model:ir.model,name:dub_withholding_extension.model_withholding_history_statement
+msgid "Withholding History Statement"
+msgstr "Prospetto storico ritenute"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment__move_line_ids
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_create__line_ids
 msgid "Withholding Lines"
 msgstr "Righe ritenute"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_account_account__l10n_it_wt_payable
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_history_statement__withholding_name
+msgid "Withholding Name"
+msgstr "Nome ritenuta"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_account_account__l10n_it_wt_payable
 msgid "Withholding Payable Account"
 msgstr "Conto ritenute da versare"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model,name:l10n_it_withholding_tax.model_withholding_payment_type
+#. module: dub_withholding_extension
+#: model:ir.model,name:dub_withholding_extension.model_withholding_payment_type
 msgid "Withholding Payment Type"
 msgstr "Tipo versamento ritenute"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.actions.act_window,name:l10n_it_withholding_tax.action_withholding_payment_type
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_account_account__l10n_it_wt_payment_type_ids
-#: model:ir.ui.menu,name:l10n_it_withholding_tax.menu_withholding_payment_type
+#. module: dub_withholding_extension
+#: model:ir.actions.act_window,name:dub_withholding_extension.action_withholding_payment_type
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_account_account__l10n_it_wt_payment_type_ids
+#: model:ir.ui.menu,name:dub_withholding_extension.menu_withholding_payment_type
 msgid "Withholding Payment Types"
 msgstr "Tipi versamento ritenute"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.actions.act_window,name:l10n_it_withholding_tax.action_withholding_payment
+#. module: dub_withholding_extension
+#: model:ir.actions.act_window,name:dub_withholding_extension.action_withholding_payment
 msgid "Withholding Payments"
 msgstr "Versamenti ritenute"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model,name:l10n_it_withholding_tax.model_withholding_payment
+#. module: dub_withholding_extension
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_due_line_list
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_due_line_pivot
+msgid "Withholding Register"
+msgstr "Registro ritenute"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_res_company__l10n_it_wt_start_date
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_res_config_settings__l10n_it_wt_start_date
+msgid "Withholding Register Start Date"
+msgstr "Data di passaggio ritenute"
+
+#. module: dub_withholding_extension
+#: model:ir.model,name:dub_withholding_extension.model_l10n_it_withholding_invoice_report
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_invoice_report_list
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_invoice_report_pivot
+msgid "Withholding Register by Invoice"
+msgstr "Registro ritenute per fattura"
+
+#. module: dub_withholding_extension
+#: model:ir.model,name:dub_withholding_extension.model_l10n_it_withholding_tax_report
+msgid "Withholding Register by Payment"
+msgstr "Registro ritenute per pagamento"
+
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_invoice_report__tax_id
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_l10n_it_withholding_tax_report__tax_id
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_due_line_search
+#: model_terms:ir.ui.view,arch_db:dub_withholding_extension.view_withholding_invoice_report_search
+msgid "Withholding Tax"
+msgstr "Ritenuta"
+
+#. module: dub_withholding_extension
+#: model:ir.model,name:dub_withholding_extension.model_withholding_payment
 msgid "Withholding Tax Payment (F24)"
 msgstr "Versamento ritenute (F24)"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_withholding_payment_type__tax_ids
-#: model:ir.ui.menu,name:l10n_it_withholding_tax.menu_withholding_root
+#. module: dub_withholding_extension
+#: model:ir.model.fields,field_description:dub_withholding_extension.field_withholding_payment_type__tax_ids
+#: model:ir.ui.menu,name:dub_withholding_extension.menu_withholding_root
 msgid "Withholding Taxes"
 msgstr "Ritenute"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model,name:l10n_it_withholding_tax.model_l10n_it_withholding_tax_report
-msgid "Withholding Taxes to Pay"
-msgstr "Ritenute da versare"
+#. module: dub_withholding_extension
+#. odoo-python
+#: code:addons/dub_withholding_extension/models/withholding_payment.py:0
+msgid "Withholding payment %s"
+msgstr "Versamento ritenute %s"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.model.fields,field_description:l10n_it_withholding_tax.field_l10n_it_withholding_tax_report__tax_line_id
-#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_due_line_search
-msgid "Withholding Type"
-msgstr "Tipo ritenuta"
+#. module: dub_withholding_extension
+#. odoo-python
+#: code:addons/dub_withholding_extension/models/withholding_payment.py:0
+msgid "Withholding payment - %s"
+msgstr "Versamento ritenute - %s"
 
-#. module: l10n_it_withholding_tax
-#: model:ir.actions.act_window,name:l10n_it_withholding_tax.action_withholding_due_lines
-#: model:ir.ui.menu,name:l10n_it_withholding_tax.menu_withholding_due_lines
-#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_due_line_list
-#: model_terms:ir.ui.view,arch_db:l10n_it_withholding_tax.view_withholding_due_line_pivot
+#. module: dub_withholding_extension
+#: model_terms:ir.actions.act_window,help:dub_withholding_extension.action_withholding_due_lines
+msgid ""
+"Withholding taxes on paid vendor bills appear here until an F24\n"
+"               payment settles them. Select them and use\n"
+"               <b>Actions &gt; Create Withholding Payment</b> to generate the\n"
+"               F24 entry and reconcile them."
+msgstr "Le ritenute sulle fatture fornitore pagate compaiono qui finché un\n               versamento F24 non le salda. Selezionarle e usare\n               <b>Azioni &gt; Crea versamento ritenute</b> per generare la\n               registrazione F24 e riconciliarle."
+
+#. module: dub_withholding_extension
+#: model:ir.actions.act_window,name:dub_withholding_extension.action_withholding_due_lines
+#: model:ir.ui.menu,name:dub_withholding_extension.menu_withholding_due_lines
 msgid "Withholding to Pay"
 msgstr "Ritenute da versare"
