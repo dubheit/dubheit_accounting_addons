@@ -22,6 +22,7 @@
         "views/withholding_payment_type_views.xml",
         "views/withholding_payment_views.xml",
         "views/withholding_due_lines_views.xml",
+        "views/withholding_invoice_report_views.xml",
         "wizard/withholding_payment_create_views.xml",
         "views/withholding_history_views.xml",
         "views/menu_views.xml",

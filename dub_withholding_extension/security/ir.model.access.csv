@@ -9,3 +9,4 @@ access_wt_history_statement_user,withholding.history.statement.user,model_withho
 access_wt_history_statement_manager,withholding.history.statement.manager,model_withholding_history_statement,account.group_account_manager,1,1,1,1
 access_wt_history_move_user,withholding.history.move.user,model_withholding_history_move,account.group_account_user,1,0,0,0
 access_wt_history_move_manager,withholding.history.move.manager,model_withholding_history_move,account.group_account_manager,1,1,1,1
+access_wt_invoice_report_user,l10n_it.withholding.invoice.report.user,model_l10n_it_withholding_invoice_report,account.group_account_user,1,0,0,0

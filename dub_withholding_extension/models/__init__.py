@@ -7,3 +7,4 @@ from . import res_company
 from . import res_config_settings
 from . import withholding_history
 from . import withholding_tax_report
+from . import withholding_invoice_report
